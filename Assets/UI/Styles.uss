@@ -1,0 +1,695 @@
+* {
+    -unity-font-definition: url("project://database/Assets/Roguelike2D/TutorialAssets/Fonts/PressStart2P-Regular.ttf");
+}
+
+.root {
+    flex-grow: 1;
+    background-color: rgb(18, 18, 18);
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    -unity-font-style: normal;
+}
+
+.card {
+    width: 580px;
+    background-color: rgb(30, 30, 30);
+    border-radius: 16px;
+    padding: 25px;
+    border-width: 2px;
+    border-color: rgb(56, 56, 56);
+}
+
+.title {
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    margin-bottom: 15px;
+    -unity-text-align: middle-center;
+    letter-spacing: 2px;
+}
+
+.section-label {
+    color: rgb(170, 170, 170);
+    margin-bottom: 4px;
+    font-size: 9px;
+    margin-left: 2px;
+}
+
+.highlight-text {
+    color: rgb(255, 215, 0);
+    -unity-font-style: bold;
+    font-size: 11px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    -unity-text-align: middle-center;
+}
+
+.preview-text {
+    color: rgb(129, 199, 132);
+    font-size: 10px;
+    margin-top: 12px;
+    -unity-text-align: middle-center;
+    padding: 8px;
+    background-color: rgb(37, 37, 37);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgb(51, 51, 51);
+}
+
+.modern-input {
+    margin-bottom: 10px;
+}
+
+.modern-input > .unity-base-field__label {
+    color: rgb(238, 238, 238);
+    min-width: 120px;
+    display: none;
+}
+
+.modern-input > .unity-base-field__input {
+    background-color: rgb(44, 44, 44);
+    border-width: 1px;
+    border-color: rgb(68, 68, 68);
+    border-radius: 6px;
+    color: rgb(255, 255, 255);
+    padding: 6px;
+    margin-left: 0;
+    font-size: 11px;
+}
+
+.stat-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    background-color: rgb(37, 37, 37);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgb(51, 51, 51);
+    min-height: 42px;
+}
+
+.stat-name {
+    color: rgb(255, 255, 255);
+    font-size: 11px;
+    width: 130px;
+    -unity-text-align: middle-left;
+    padding-left: 8px;
+}
+
+.control-group {
+    flex-direction: row;
+    align-items: center;
+}
+
+.stat-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: rgb(58, 58, 58);
+    border-width: 0;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    -unity-font-style: bold;
+    transition-duration: 0.1s;
+    justify-content: center;
+    align-items: center;
+}
+
+.stat-btn:hover {
+    background-color: rgb(80, 80, 80);
+    scale: 1.1;
+}
+
+.stat-btn:active {
+    background-color: rgb(102, 102, 102);
+}
+
+.stat-btn:disabled {
+    opacity: 0.3;
+    scale: 1;
+}
+
+.stat-value-display {
+    width: 50px;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.stat-value-display > .unity-integer-field__input {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    font-size: 12px;
+    -unity-text-align: middle-center;
+    padding: 0;
+    margin: 0;
+}
+
+.play-btn {
+    margin-top: 20px;
+    height: 45px;
+    background-color: rgb(0, 122, 204);
+    border-width: 0;
+    border-radius: 8px;
+    color: rgb(255, 255, 255);
+    font-size: 11px;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+    transition-duration: 0.2s;
+}
+
+.play-btn:hover {
+    background-color: rgb(0, 152, 255);
+    scale: 1.02;
+}
+
+.play-btn:active {
+    background-color: rgb(0, 90, 158);
+    scale: 0.98;
+}
+
+/* --- ESTILOS MENÚ DE PAUSA --- */
+.pause-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.pause-panel {
+    width: 400px;
+    background-color: rgb(40, 40, 40);
+    border-radius: 10px;
+    padding: 25px;
+    border-width: 2px;
+    border-color: rgb(80, 80, 80);
+    align-items: center;
+}
+
+.pause-title {
+    font-size: 18px;
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    margin-bottom: 25px;
+    -unity-text-align: middle-center;
+}
+
+.pause-btn {
+    width: 300px;
+    height: 40px;
+    margin-bottom: 10px;
+    background-color: rgb(60, 60, 60);
+    border-radius: 8px;
+    color: rgb(255, 255, 255);
+    font-size: 10px;
+    border-width: 1px;
+    border-color: rgb(100, 100, 100);
+}
+
+.pause-btn:hover {
+    background-color: rgb(80, 80, 80);
+}
+
+.pause-btn-exit {
+    background-color: rgb(180, 60, 60);
+    border-color: rgb(200, 80, 80);
+}
+
+.pause-btn-exit:hover {
+    background-color: rgb(200, 80, 80);
+}
+
+ScrollView {
+    margin-bottom: 10px;
+}
+
+/* --- ESTILOS MENÚ DE CONFIGURACIÓN --- */
+.settings-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: rgb(50, 50, 50);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgb(70, 70, 70);
+}
+
+.settings-label {
+    color: rgb(255, 255, 255);
+    font-size: 10px;
+    flex-grow: 1;
+}
+
+.settings-toggle {
+    margin: 0;
+}
+
+.settings-toggle > .unity-toggle__input > .unity-toggle__checkmark {
+    width: 22px;
+    height: 22px;
+    background-color: rgb(60, 60, 60);
+    border-radius: 4px;
+    border-width: 2px;
+    border-color: rgb(100, 100, 100);
+}
+
+.settings-toggle > .unity-toggle__input:checked > .unity-toggle__checkmark {
+    background-color: rgb(0, 122, 204);
+    border-color: rgb(0, 152, 255);
+}
+
+.settings-delete-btn {
+    background-color: rgb(120, 50, 50);
+    border-color: rgb(150, 70, 70);
+    margin-top: 10px;
+}
+
+.settings-delete-btn:hover {
+    background-color: rgb(150, 60, 60);
+}
+
+.settings-delete-btn-confirm {
+    background-color: rgb(180, 40, 40);
+    border-color: rgb(220, 60, 60);
+}
+
+.settings-delete-btn-confirm:hover {
+    background-color: rgb(200, 50, 50);
+}
+
+/* --- FPS COUNTER --- */
+.fps-counter {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: rgb(0, 255, 0);
+    font-size: 9px;
+    border-radius: 4px;
+}
+
+/* --- ESTILOS LOGROS --- */
+.achievement-row {
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background-color: rgb(50, 50, 50);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgb(70, 70, 70);
+    cursor: link;
+}
+
+.achievement-row:hover {
+    background-color: rgb(60, 60, 60);
+    border-color: rgb(100, 100, 100);
+}
+
+.achievement-name {
+    color: rgb(255, 255, 255);
+    font-size: 10px;
+    width: 140px;
+    -unity-font-style: bold;
+}
+
+.achievement-percent {
+    color: rgb(200, 200, 200);
+    font-size: 9px;
+    width: 50px;
+    -unity-text-align: middle-right;
+}
+
+.progress-container {
+    flex-grow: 1;
+    height: 10px;
+    background-color: rgb(30, 30, 30);
+    border-radius: 5px;
+    margin-left: 15px;
+    margin-right: 15px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: rgb(100, 100, 100);
+    border-radius: 5px;
+    transition-duration: 0.3s;
+}
+
+.progress-bar-half {
+    background-color: rgb(200, 150, 50);
+}
+
+.progress-bar-complete {
+    background-color: rgb(80, 180, 80);
+}
+
+/* --- DETALLES DE LOGROS --- */
+.achievement-detail-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background-color: rgb(45, 45, 45);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgb(60, 60, 60);
+}
+
+.achievement-info {
+    flex-direction: column;
+    width: 55%;
+}
+
+.achievement-detail-name {
+    color: rgb(255, 255, 255);
+    font-size: 10px;
+    -unity-font-style: bold;
+    margin-bottom: 3px;
+}
+
+.achievement-detail-desc {
+    color: rgb(150, 150, 150);
+    font-size: 8px;
+}
+
+.achievement-detail-progress {
+    flex-direction: column;
+    width: 40%;
+    align-items: flex-end;
+}
+
+.achievement-detail-progress .progress-container {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 5px;
+}
+
+.achievement-progress-text {
+    color: rgb(180, 180, 180);
+    font-size: 8px;
+}
+
+.achievement-completed {
+    color: rgb(80, 200, 80);
+    -unity-font-style: bold;
+}
+
+/* OCULTAR BARRA DE SCROLL POR COMPLETO */
+.unity-scroller {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    display: none;
+    visibility: hidden;
+}
+
+.unity-scroller .unity-slider {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.unity-scroller .unity-repeat-button {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.unity-scroller--vertical {
+    width: 0;
+    display: none;
+}
+
+.unity-scroller--horizontal {
+    height: 0;
+    display: none;
+}
+
+.unity-scroll-view__content-container {
+    padding-right: 0;
+    margin-right: 0;
+}
+
+/* ================================== */
+/* --- ESTILOS PANTALLA GAME OVER --- */
+/* ================================== */
+.gameover-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.92);
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.gameover-panel {
+    width: 520px;
+    background-color: rgb(25, 25, 30);
+    border-radius: 16px;
+    padding: 30px;
+    border-width: 3px;
+    border-color: rgb(80, 20, 20);
+    align-items: center;
+}
+
+.gameover-title {
+    font-size: 24px;
+    color: rgb(220, 50, 50);
+    -unity-font-style: bold;
+    margin-bottom: 10px;
+    -unity-text-align: middle-center;
+    letter-spacing: 3px;
+}
+
+.gameover-hero {
+    font-size: 12px;
+    color: rgb(200, 200, 200);
+    margin-bottom: 20px;
+    -unity-text-align: middle-center;
+}
+
+.gameover-stats {
+    width: 100%;
+    background-color: rgb(35, 35, 40);
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-width: 1px;
+    border-color: rgb(60, 60, 70);
+}
+
+.gameover-stat {
+    font-size: 11px;
+    color: rgb(255, 255, 255);
+    margin-bottom: 8px;
+    -unity-text-align: middle-center;
+}
+
+.gameover-separator {
+    width: 80%;
+    height: 2px;
+    background-color: rgb(60, 60, 70);
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.gameover-top-title {
+    font-size: 11px;
+    color: rgb(255, 215, 0);
+    -unity-font-style: bold;
+    margin-bottom: 15px;
+    -unity-text-align: middle-center;
+    letter-spacing: 1px;
+}
+
+.gameover-top-container {
+    width: 100%;
+    background-color: rgb(30, 30, 35);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-height: 100px;
+    border-width: 1px;
+    border-color: rgb(50, 50, 60);
+}
+
+.top-player-row {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    background-color: rgb(40, 40, 48);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgb(55, 55, 65);
+}
+
+.top-player-row:hover {
+    background-color: rgb(50, 50, 58);
+}
+
+.top-player-pos {
+    width: 35px;
+    font-size: 10px;
+    color: rgb(255, 215, 0);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.top-player-name {
+    flex-grow: 1;
+    font-size: 9px;
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    padding-left: 10px;
+}
+
+.top-player-level {
+    width: 90px;
+    font-size: 8px;
+    color: rgb(100, 200, 255);
+    -unity-text-align: middle-right;
+    padding-right: 10px;
+}
+
+.top-player-xp {
+    width: 70px;
+    font-size: 8px;
+    color: rgb(180, 130, 255);
+    -unity-text-align: middle-right;
+}
+
+.top-player-empty {
+    font-size: 10px;
+    color: rgb(120, 120, 130);
+    -unity-text-align: middle-center;
+    padding: 25px;
+}
+
+.gameover-buttons {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.gameover-btn {
+    flex-grow: 1;
+    height: 45px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 10px;
+    font-size: 10px;
+    -unity-font-style: bold;
+    border-width: 2px;
+    transition-duration: 0.15s;
+}
+
+.gameover-btn:hover {
+    scale: 1.03;
+}
+
+.gameover-btn:active {
+    scale: 0.97;
+}
+
+.gameover-btn-retry {
+    background-color: rgb(40, 120, 80);
+    border-color: rgb(60, 160, 100);
+    color: rgb(255, 255, 255);
+}
+
+.gameover-btn-retry:hover {
+    background-color: rgb(50, 150, 100);
+}
+
+.gameover-btn-exit {
+    background-color: rgb(100, 50, 50);
+    border-color: rgb(140, 70, 70);
+    color: rgb(255, 255, 255);
+}
+
+.gameover-btn-exit:hover {
+    background-color: rgb(130, 60, 60);
+}
+
+/* ================================== */
+/* --- ESTILOS HUD LATERAL --- */
+/* ================================== */
+.hud-panel-left {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    translate: 0 -50%;
+    padding: 10px;
+}
+
+.hud-panel-right {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    translate: 0 -50%;
+    padding: 10px;
+    align-items: flex-end;
+}
+
+.hud-label {
+    font-size: 12px;
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    margin-bottom: 5px;
+    padding: 4px 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+
+/* Colores específicos para cada stat */
+.hud-strength {
+    color: rgb(255, 120, 120);
+}
+
+.hud-agility {
+    color: rgb(120, 255, 150);
+}
+
+.hud-intelligence {
+    color: rgb(120, 180, 255);
+}
+
+.hud-health {
+    color: rgb(255, 150, 200);
+}
+
+.hud-night {
+    color: rgb(180, 200, 255);
+}
+
+.hud-xp {
+    color: rgb(255, 215, 0);
+}
+
+.hud-skillpoints {
+    color: rgb(255, 200, 100);
+    margin-top: 20px;
+}

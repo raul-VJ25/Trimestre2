@@ -1,0 +1,46 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles.uss?fileID=7433441132597879392&amp;guid=2bc7fc08105c6ab4d8560080d06b7b1e&amp;type=3#Styles"/>
+    <ui:VisualElement class="root">
+        <ui:VisualElement class="card">
+            <ui:Label text="CREAR PERSONAJE" class="title"/>
+            <ui:Label text="Nombre del Héroe" class="section-label"/>
+            <ui:TextField name="NameInput" placeholder-text="" class="modern-input"/>
+            <ui:Label name="PointsLabel" text="Puntos disponibles: 10" class="highlight-text"/>
+            <ui:VisualElement style="height: 10px;"/>
+            <ui:VisualElement class="stat-row">
+                <ui:Label text="Fuerza" class="stat-name"/>
+                <ui:VisualElement class="control-group">
+                    <ui:Button name="StrMinus" text="-" class="stat-btn"/>
+                    <ui:IntegerField name="StrInput" class="stat-value-display"/>
+                    <ui:Button name="StrPlus" text="+" class="stat-btn"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="stat-row">
+                <ui:Label text="Agilidad" class="stat-name"/>
+                <ui:VisualElement class="control-group">
+                    <ui:Button name="AgiMinus" text="-" class="stat-btn"/>
+                    <ui:IntegerField name="AgiInput" class="stat-value-display"/>
+                    <ui:Button name="AgiPlus" text="+" class="stat-btn"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="stat-row">
+                <ui:Label text="Inteligencia" class="stat-name"/>
+                <ui:VisualElement class="control-group">
+                    <ui:Button name="IntMinus" text="-" class="stat-btn"/>
+                    <ui:IntegerField name="IntInput" class="stat-value-display"/>
+                    <ui:Button name="IntPlus" text="+" class="stat-btn"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="stat-row">
+                <ui:Label text="Salud" class="stat-name"/>
+                <ui:VisualElement class="control-group">
+                    <ui:Button name="HpMinus" text="-" class="stat-btn"/>
+                    <ui:IntegerField name="HpInput" class="stat-value-display"/>
+                    <ui:Button name="HpPlus" text="+" class="stat-btn"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Label name="PreviewLife" text="Vida Inicial: 10" class="preview-text"/>
+            <ui:Button name="PlayButton" text="COMENZAR AVENTURA" class="play-btn"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
