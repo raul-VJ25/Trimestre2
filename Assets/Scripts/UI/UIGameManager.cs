@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -169,7 +170,7 @@ public class UIGameManager : MonoBehaviour
                 m_AchievementLabel.text = "¡Logro!\n" + message;
                 m_AchievementLabel.style.color = new StyleColor(new Color(1f, 0.84f, 0f));
             }
-            GameManager.Instance.StartCoroutine("HideAchievementLabel");
+            StartCoroutine(HideAchievementLabel());
         }
     }
 
@@ -179,7 +180,7 @@ public class UIGameManager : MonoBehaviour
         {
             m_AchievementLabel.text = message;
             m_AchievementLabel.style.color = new StyleColor(new Color(0.4f, 0.9f, 0.4f));
-            GameManager.Instance.StartCoroutine("HideAchievementLabel");
+            StartCoroutine(HideAchievementLabel());
         }
     }
 
@@ -189,7 +190,16 @@ public class UIGameManager : MonoBehaviour
         {
             m_AchievementLabel.text = message;
             m_AchievementLabel.style.color = new StyleColor(new Color(0.6f, 0.8f, 1f));
-            GameManager.Instance.StartCoroutine("HideAchievementLabel");
+            StartCoroutine(HideAchievementLabel());
+        }
+    }
+
+    private IEnumerator HideAchievementLabel()
+    {
+        yield return new WaitForSeconds(3f);
+        if (m_AchievementLabel != null)
+        {
+            m_AchievementLabel.text = "";
         }
     }
 
