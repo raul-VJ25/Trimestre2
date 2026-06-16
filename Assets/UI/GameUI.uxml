@@ -1,4 +1,73 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Label text="Food" name="FoodLabel" style="-unity-font-definition: url(&quot;project://database/Assets/Roguelike2D/TutorialAssets/Fonts/PressStart2P-Regular.ttf?fileID=12800000&amp;guid=b284a6525342f44599e9ce79e37c2d61&amp;type=3#PressStart2P-Regular&quot;); color: rgb(255, 255, 255); font-size: 18px; -unity-text-align: upper-center; position: absolute; bottom: 15px; left: 0; right: 0; top: auto;"/>
-    <ui:Label text="Logros" name="AchievementLabel" style="-unity-font-definition: url(&quot;project://database/Assets/Roguelike2D/TutorialAssets/Fonts/PressStart2P-Regular.ttf?fileID=12800000&amp;guid=b284a6525342f44599e9ce79e37c2d61&amp;type=3#PressStart2P-Regular&quot;); color: rgb(226, 202, 93); font-size: 18px; -unity-text-align: upper-right; position: absolute; bottom: 47px; left: 650px; right: 0; top: auto; height: 23px;"/>
+    <Style src="project://database/Assets/UI/Styles.uss?fileID=7433441132597879392&amp;guid=2bc7fc08105c6ab4d8560080d06b7b1e&amp;type=3#Styles"/>
+    
+    <!-- Label central de comida/vida -->
+    <ui:Label text="Vida" name="FoodLabel" class="hud-label" style="position: absolute; bottom: 15px; left: 0; right: 0; top: auto;"/>
+    
+    <!-- Label de logros/notificaciones -->
+    <ui:Label text="" name="AchievementLabel" style="position: absolute; bottom: 47px; left: 650px; right: 0; top: auto; height: 23px;"/>
+    
+    <!-- Panel de Pausa -->
+    <ui:VisualElement name="PauseOverlay" class="pause-overlay" picking-mode="Ignore">
+        <ui:VisualElement class="pause-panel">
+            <ui:Label text="PAUSA" class="pause-title"/>
+            <ui:Button text="Continuar" name="ContinueButton" class="pause-btn"/>
+            <ui:Button text="Configuración" name="SettingsButton" class="pause-btn"/>
+            <ui:Button text="Guardar y Salir" name="ExitButton" class="pause-btn pause-btn-exit"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    
+    <!-- Panel de Configuración -->
+    <ui:VisualElement name="SettingsPanel" class="pause-overlay" picking-mode="Ignore" style="display: none;">
+        <ui:VisualElement class="pause-panel" style="width: 450px;">
+            <ui:Label text="Configuración" class="pause-title"/>
+            
+            <ui:VisualElement class="settings-row">
+                <ui:Label text="Pantalla Completa" class="settings-label"/>
+                <ui:Toggle name="FullscreenToggle" class="settings-toggle"/>
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="settings-row">
+                <ui:Label text="Limitar a 60 FPS" class="settings-label"/>
+                <ui:Toggle name="LimitFPSToggle" class="settings-toggle"/>
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="settings-row">
+                <ui:Label text="Mostrar FPS" class="settings-label"/>
+                <ui:Toggle name="ShowFPSToggle" class="settings-toggle"/>
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="settings-row">
+                <ui:Label text="Silenciar Música" class="settings-label"/>
+                <ui:Toggle name="MuteMusicToggle" class="settings-toggle"/>
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="height: 20px;"/>
+            
+            <ui:Button text="Volver" name="SettingsBackButton" class="pause-btn pause-btn-exit"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    
+    <!-- Panel de Game Over -->
+    <ui:VisualElement name="GameOverPanel" class="gameover-overlay" picking-mode="Ignore" style="display: none;">
+        <ui:VisualElement class="gameover-panel">
+            <ui:Label text="HAS MUERTO" class="gameover-title"/>
+            <ui:Label text="" name="GameOverHeroLabel" class="gameover-hero"/>
+            
+            <ui:VisualElement class="gameover-stats">
+                <ui:Label text="Noches sobrevividas: 0" name="GameOverDaysLabel" class="gameover-stat"/>
+                <ui:Label text="XP conseguido: 0" name="GameOverXPLabel" class="gameover-stat"/>
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="gameover-separator"/>
+            
+            <ui:Label text="TOP 5 JUGADORES" class="gameover-top-title"/>
+            <ui:VisualElement name="TopPlayersContainer" class="gameover-top-container"/>
+            
+            <ui:VisualElement class="gameover-buttons">
+                <ui:Button text="Salir al Menú" name="ExitToMenuButton" class="gameover-btn gameover-btn-exit"/>
+                <ui:Button text="Reintentar" name="RetryButton" class="gameover-btn gameover-btn-retry"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

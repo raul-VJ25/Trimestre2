@@ -53,12 +53,14 @@
     <Compile Include="Assets\Scripts\CellObject.cs" />
     <Compile Include="Assets\Scripts\AchievementManager.cs" />
     <Compile Include="Assets\Scripts\WallObject.cs" />
+    <Compile Include="Assets\Scripts\UI\UIGameManager.cs" />
     <Compile Include="Assets\Scripts\FoodObject.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\TurnManager.cs" />
     <Compile Include="Assets\Scripts\ExitCellObject.cs" />
     <Compile Include="Assets\Scripts\GameEvents.cs" />
     <Compile Include="Assets\Scripts\SaveManager.cs" />
+    <Compile Include="Assets\Scripts\UI\UIMenuManager.cs" />
     <Compile Include="Assets\Scripts\CharacterCreationManager.cs" />
     <Compile Include="Assets\Scripts\ChestObject.cs" />
     <Compile Include="Assets\Scripts\FPSCounter.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\EnemyObject.cs" />
     <Compile Include="Assets\Scripts\XPGemObject.cs" />
+    <Compile Include="Assets\Scripts\UI\UICharacterCreationManager.cs" />
     <Compile Include="Assets\Scripts\BoardManager.cs" />
   </ItemGroup>
   <ItemGroup>
