@@ -11,7 +11,6 @@ public class UIGameManager : MonoBehaviour
 
     [Header("HUD Central")]
     private Label m_LifeLabel;
-    private Label m_NameLabel;
     private Label m_AchievementLabel;
 
     [Header("HUD Izquierdo - Stats")]
@@ -42,6 +41,14 @@ public class UIGameManager : MonoBehaviour
     private Toggle m_ShowFPSToggle;
     private Toggle m_MuteMusicToggle;
 
+    [Header("Botones")]
+    private Button m_ContinueButton;
+    private Button m_PauseSettingsButton;
+    private Button m_PauseExitButton;
+    private Button m_SettingsBackButton;
+    private Button m_ExitToMenuButton;
+    private Button m_RetryButton;
+
     private const int MIN_WINDOW_WIDTH = 800;
     private const int MIN_WINDOW_HEIGHT = 600;
 
@@ -61,72 +68,84 @@ public class UIGameManager : MonoBehaviour
 
         var root = UIDocument.rootVisualElement;
 
-        // Referencias del GameUI.uxml
+        // Referencias del GameUI.uxml - TODOS los elementos
         m_LifeLabel = root.Q<Label>("FoodLabel");
         m_AchievementLabel = root.Q<Label>("AchievementLabel");
-        if (m_AchievementLabel != null) m_AchievementLabel.text = "";
 
-        // Crear HUD dinámico (stats laterales)
-        SetupHUD(root);
+        // HUD Stats
+        m_StrengthLabel = root.Q<Label>("StrengthLabel");
+        m_AgilityLabel = root.Q<Label>("AgilityLabel");
+        m_IntelligenceLabel = root.Q<Label>("IntelligenceLabel");
+        m_HealthLabel = root.Q<Label>("HealthLabel");
+        m_SkillPointsLabel = root.Q<Label>("SkillPointsLabel");
 
-        // Crear paneles (pausa, settings, game over)
-        SetupPauseMenu(root);
-        SetupSettingsPanel(root);
-        SetupGameOverPanel(root);
-    }
+        // HUD Progreso
+        m_NightLabel = root.Q<Label>("NightLabel");
+        m_XPLabel = root.Q<Label>("XPLabel");
 
-    void SetupHUD(VisualElement root)
-    {
-        // Panel izquierdo - Estadísticas
-        var leftPanel = new VisualElement();
-        leftPanel.AddToClassList("hud-panel-left");
+        // Paneles
+        m_PauseOverlay = root.Q<VisualElement>("PauseOverlay");
+        m_SettingsPanel = root.Q<VisualElement>("SettingsPanel");
+        m_GameOverPanel = root.Q<VisualElement>("GameOverPanel");
 
-        m_StrengthLabel = CreateHUDLabel("Fuerza: 1", "hud-strength");
-        leftPanel.Add(m_StrengthLabel);
+        // Game Over
+        m_GameOverHeroLabel = root.Q<Label>("GameOverHeroLabel");
+        m_GameOverDaysLabel = root.Q<Label>("GameOverDaysLabel");
+        m_GameOverXPLabel = root.Q<Label>("GameOverXPLabel");
+        m_TopPlayersContainer = root.Q<VisualElement>("TopPlayersContainer");
 
-        m_AgilityLabel = CreateHUDLabel("Agilidad: 1", "hud-agility");
-        leftPanel.Add(m_AgilityLabel);
+        // Configuración
+        m_FullscreenToggle = root.Q<Toggle>("FullscreenToggle");
+        m_LimitFPSToggle = root.Q<Toggle>("LimitFPSToggle");
+        m_ShowFPSToggle = root.Q<Toggle>("ShowFPSToggle");
+        m_MuteMusicToggle = root.Q<Toggle>("MuteMusicToggle");
 
-        m_IntelligenceLabel = CreateHUDLabel("Intelig.: 1", "hud-intelligence");
-        leftPanel.Add(m_IntelligenceLabel);
+        // Botones
+        m_ContinueButton = root.Q<Button>("ContinueButton");
+        m_PauseSettingsButton = root.Q<Button>("SettingsButton");
+        m_PauseExitButton = root.Q<Button>("ExitButton");
+        m_SettingsBackButton = root.Q<Button>("SettingsBackButton");
+        m_ExitToMenuButton = root.Q<Button>("ExitToMenuButton");
+        m_RetryButton = root.Q<Button>("RetryButton");
 
-        m_HealthLabel = CreateHUDLabel("Salud: 1", "hud-health");
-        leftPanel.Add(m_HealthLabel);
+        // Registrar callbacks de botones
+        if (m_ContinueButton != null)
+            m_ContinueButton.clicked += () => GameManager.Instance.ResumeGame();
 
-        m_SkillPointsLabel = CreateHUDLabel("Puntos: 0", "hud-skillpoints");
-        leftPanel.Add(m_SkillPointsLabel);
+        if (m_PauseSettingsButton != null)
+            m_PauseSettingsButton.clicked += OpenSettingsFromPause;
 
-        root.Add(leftPanel);
+        if (m_PauseExitButton != null)
+            m_PauseExitButton.clicked += () => GameManager.Instance.SaveAndExit();
 
-        // Panel derecho - Progreso
-        var rightPanel = new VisualElement();
-        rightPanel.AddToClassList("hud-panel-right");
+        if (m_SettingsBackButton != null)
+            m_SettingsBackButton.clicked += CloseSettingsFromPause;
 
-        m_NightLabel = CreateHUDLabel("Noche: 1", "hud-night");
-        rightPanel.Add(m_NightLabel);
+        if (m_ExitToMenuButton != null)
+            m_ExitToMenuButton.clicked += () => GameManager.Instance.OnExitClicked();
 
-        m_XPLabel = CreateHUDLabel("XP: 0", "hud-xp");
-        rightPanel.Add(m_XPLabel);
+        if (m_RetryButton != null)
+            m_RetryButton.clicked += () => GameManager.Instance.OnRetryClicked();
 
-        root.Add(rightPanel);
+        // Registrar callbacks de toggles
+        if (m_FullscreenToggle != null)
+            m_FullscreenToggle.RegisterValueChangedCallback(OnFullscreenChanged);
 
-        // Label de nombre (se crea dinámicamente)
-        m_NameLabel = new Label("Hero: Desconocido");
-        m_NameLabel.AddToClassList("hud-label");
-        m_NameLabel.style.position = Position.Absolute;
-        m_NameLabel.style.top = 10;
-        m_NameLabel.style.left = 0;
-        m_NameLabel.style.right = 0;
-        m_NameLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
-        root.Add(m_NameLabel);
-    }
+        if (m_LimitFPSToggle != null)
+            m_LimitFPSToggle.RegisterValueChangedCallback(OnLimitFPSChanged);
 
-    private Label CreateHUDLabel(string text, string className)
-    {
-        var label = new Label(text);
-        label.AddToClassList("hud-label");
-        label.AddToClassList(className);
-        return label;
+        if (m_ShowFPSToggle != null)
+            m_ShowFPSToggle.RegisterValueChangedCallback(OnShowFPSChanged);
+
+        if (m_MuteMusicToggle != null)
+            m_MuteMusicToggle.RegisterValueChangedCallback(OnMuteMusicChanged);
+
+        // Inicializar texto de achievement
+        if (m_AchievementLabel != null)
+            m_AchievementLabel.text = "";
+
+        // Cargar valores de configuración
+        LoadSettingsValues();
     }
 
     public void UpdateSkillPointsUI()
@@ -142,13 +161,12 @@ public class UIGameManager : MonoBehaviour
         if (SessionManager.Instance != null && SessionManager.Instance.CurrentPlayerData != null)
         {
             var data = SessionManager.Instance.CurrentPlayerData;
-            m_StrengthLabel.text = "Fuerza: " + data.Strength;
-            m_AgilityLabel.text = "Agilidad: " + data.Agility;
-            m_IntelligenceLabel.text = "Intelig.: " + data.Intelligence;
-            m_HealthLabel.text = "Salud: " + data.Health;
+            if (m_StrengthLabel != null) m_StrengthLabel.text = "Fuerza: " + data.Strength;
+            if (m_AgilityLabel != null) m_AgilityLabel.text = "Agilidad: " + data.Agility;
+            if (m_IntelligenceLabel != null) m_IntelligenceLabel.text = "Intelig.: " + data.Intelligence;
+            if (m_HealthLabel != null) m_HealthLabel.text = "Salud: " + data.Health;
         }
 
-        if (m_NameLabel != null) m_NameLabel.text = "Hero: " + playerName;
         if (m_LifeLabel != null) m_LifeLabel.text = "Vida " + playerName + ": " + life;
         if (m_NightLabel != null) m_NightLabel.text = "Noche: " + night;
         if (m_XPLabel != null) m_XPLabel.text = "XP: " + xp;
@@ -219,6 +237,7 @@ public class UIGameManager : MonoBehaviour
         if (m_TopPlayersContainer == null) return;
 
         m_TopPlayersContainer.Clear();
+
         string[] files = SaveManager.GetAllSaveFiles();
         System.Collections.Generic.List<(string name, int level, int xp)> players =
             new System.Collections.Generic.List<(string, int, int)>();
@@ -240,6 +259,7 @@ public class UIGameManager : MonoBehaviour
         });
 
         int count = Mathf.Min(5, players.Count);
+
         if (count == 0)
         {
             var noDataLabel = new Label("No hay records todavía");
@@ -255,9 +275,9 @@ public class UIGameManager : MonoBehaviour
 
             string medal = i switch
             {
-                0 => "1.",
-                1 => "2.",
-                2 => "3.",
+                0 => "🥇",
+                1 => "🥈",
+                2 => "🥉",
                 _ => $"{i + 1}."
             };
 
@@ -281,118 +301,6 @@ public class UIGameManager : MonoBehaviour
         }
     }
 
-    void SetupPauseMenu(VisualElement root)
-    {
-        m_PauseOverlay = new VisualElement();
-        m_PauseOverlay.AddToClassList("pause-overlay");
-
-        var panel = new VisualElement();
-        panel.AddToClassList("pause-panel");
-
-        var title = new Label("PAUSA");
-        title.AddToClassList("pause-title");
-        panel.Add(title);
-
-        var continueBtn = new Button { text = "Continuar" };
-        continueBtn.AddToClassList("pause-btn");
-        continueBtn.clicked += () => GameManager.Instance.ResumeGame();
-        panel.Add(continueBtn);
-
-        var settingsBtn = new Button { text = "Configuración" };
-        settingsBtn.AddToClassList("pause-btn");
-        settingsBtn.clicked += OpenSettingsFromPause;
-        panel.Add(settingsBtn);
-
-        var exitBtn = new Button { text = "Guardar y Salir" };
-        exitBtn.AddToClassList("pause-btn");
-        exitBtn.AddToClassList("pause-btn-exit");
-        exitBtn.clicked += () => GameManager.Instance.SaveAndExit();
-        panel.Add(exitBtn);
-
-        m_PauseOverlay.Add(panel);
-        root.Add(m_PauseOverlay);
-    }
-
-    void SetupSettingsPanel(VisualElement root)
-    {
-        m_SettingsPanel = new VisualElement();
-        m_SettingsPanel.AddToClassList("pause-overlay");
-        m_SettingsPanel.style.display = DisplayStyle.None;
-
-        var panel = new VisualElement();
-        panel.AddToClassList("pause-panel");
-        panel.style.width = 450;
-
-        var title = new Label("Configuración");
-        title.AddToClassList("pause-title");
-        panel.Add(title);
-
-        var fullscreenRow = CreateSettingRow("Pantalla Completa");
-        m_FullscreenToggle = new Toggle();
-        m_FullscreenToggle.AddToClassList("settings-toggle");
-        m_FullscreenToggle.RegisterValueChangedCallback(OnFullscreenChanged);
-        fullscreenRow.Add(m_FullscreenToggle);
-        panel.Add(fullscreenRow);
-
-        var fpsRow = CreateSettingRow("Limitar a 60 FPS");
-        m_LimitFPSToggle = new Toggle();
-        m_LimitFPSToggle.AddToClassList("settings-toggle");
-        m_LimitFPSToggle.RegisterValueChangedCallback(OnLimitFPSChanged);
-        fpsRow.Add(m_LimitFPSToggle);
-        panel.Add(fpsRow);
-
-        var showFPSRow = CreateSettingRow("Mostrar FPS");
-        m_ShowFPSToggle = new Toggle();
-        m_ShowFPSToggle.AddToClassList("settings-toggle");
-        m_ShowFPSToggle.RegisterValueChangedCallback(OnShowFPSChanged);
-        showFPSRow.Add(m_ShowFPSToggle);
-        panel.Add(showFPSRow);
-
-        var muteRow = CreateSettingRow("Silenciar Música");
-        m_MuteMusicToggle = new Toggle();
-        m_MuteMusicToggle.AddToClassList("settings-toggle");
-        m_MuteMusicToggle.RegisterValueChangedCallback(OnMuteMusicChanged);
-        muteRow.Add(m_MuteMusicToggle);
-        panel.Add(muteRow);
-
-        var separator = new VisualElement();
-        separator.style.height = 20;
-        panel.Add(separator);
-
-        var backBtn = new Button { text = "Volver" };
-        backBtn.AddToClassList("pause-btn");
-        backBtn.AddToClassList("pause-btn-exit");
-        backBtn.clicked += CloseSettingsFromPause;
-        panel.Add(backBtn);
-
-        m_SettingsPanel.Add(panel);
-        root.Add(m_SettingsPanel);
-
-        LoadSettingsValues();
-    }
-
-    VisualElement CreateSettingRow(string labelText)
-    {
-        var row = new VisualElement();
-        row.AddToClassList("settings-row");
-        var label = new Label(labelText);
-        label.AddToClassList("settings-label");
-        row.Add(label);
-        return row;
-    }
-
-    void LoadSettingsValues()
-    {
-        if (m_FullscreenToggle != null)
-            m_FullscreenToggle.value = PlayerPrefs.GetInt("Fullscreen", Screen.fullScreen ? 1 : 0) == 1;
-        if (m_LimitFPSToggle != null)
-            m_LimitFPSToggle.value = PlayerPrefs.GetInt("LimitFPS", 0) == 1;
-        if (m_ShowFPSToggle != null)
-            m_ShowFPSToggle.value = PlayerPrefs.GetInt("ShowFPS", 0) == 1;
-        if (m_MuteMusicToggle != null)
-            m_MuteMusicToggle.value = PlayerPrefs.GetInt("MuteMusic", 0) == 1;
-    }
-
     void OpenSettingsFromPause()
     {
         if (m_PauseOverlay != null) m_PauseOverlay.style.display = DisplayStyle.None;
@@ -404,6 +312,21 @@ public class UIGameManager : MonoBehaviour
     {
         if (m_SettingsPanel != null) m_SettingsPanel.style.display = DisplayStyle.None;
         if (m_PauseOverlay != null) m_PauseOverlay.style.display = DisplayStyle.Flex;
+    }
+
+    void LoadSettingsValues()
+    {
+        if (m_FullscreenToggle != null)
+            m_FullscreenToggle.value = PlayerPrefs.GetInt("Fullscreen", Screen.fullScreen ? 1 : 0) == 1;
+
+        if (m_LimitFPSToggle != null)
+            m_LimitFPSToggle.value = PlayerPrefs.GetInt("LimitFPS", 0) == 1;
+
+        if (m_ShowFPSToggle != null)
+            m_ShowFPSToggle.value = PlayerPrefs.GetInt("ShowFPS", 0) == 1;
+
+        if (m_MuteMusicToggle != null)
+            m_MuteMusicToggle.value = PlayerPrefs.GetInt("MuteMusic", 0) == 1;
     }
 
     void OnFullscreenChanged(ChangeEvent<bool> evt)
@@ -468,67 +391,5 @@ public class UIGameManager : MonoBehaviour
     public void HideGameOverPanel()
     {
         if (m_GameOverPanel != null) m_GameOverPanel.style.display = DisplayStyle.None;
-    }
-
-    void SetupGameOverPanel(VisualElement root)
-    {
-        m_GameOverPanel = new VisualElement();
-        m_GameOverPanel.AddToClassList("gameover-overlay");
-        m_GameOverPanel.style.display = DisplayStyle.None;
-
-        var panel = new VisualElement();
-        panel.AddToClassList("gameover-panel");
-
-        var title = new Label("HAS MUERTO");
-        title.AddToClassList("gameover-title");
-        panel.Add(title);
-
-        m_GameOverHeroLabel = new Label("");
-        m_GameOverHeroLabel.AddToClassList("gameover-hero");
-        panel.Add(m_GameOverHeroLabel);
-
-        var statsContainer = new VisualElement();
-        statsContainer.AddToClassList("gameover-stats");
-
-        m_GameOverDaysLabel = new Label("Noches sobrevividas: 0");
-        m_GameOverDaysLabel.AddToClassList("gameover-stat");
-        statsContainer.Add(m_GameOverDaysLabel);
-
-        m_GameOverXPLabel = new Label("XP conseguido: 0");
-        m_GameOverXPLabel.AddToClassList("gameover-stat");
-        statsContainer.Add(m_GameOverXPLabel);
-
-        panel.Add(statsContainer);
-
-        var separator = new VisualElement();
-        separator.AddToClassList("gameover-separator");
-        panel.Add(separator);
-
-        var topTitle = new Label("TOP 5 JUGADORES");
-        topTitle.AddToClassList("gameover-top-title");
-        panel.Add(topTitle);
-
-        m_TopPlayersContainer = new VisualElement();
-        m_TopPlayersContainer.AddToClassList("gameover-top-container");
-        panel.Add(m_TopPlayersContainer);
-
-        var btnContainer = new VisualElement();
-        btnContainer.AddToClassList("gameover-buttons");
-
-        var exitBtn = new Button { text = "Salir al Menú" };
-        exitBtn.AddToClassList("gameover-btn");
-        exitBtn.AddToClassList("gameover-btn-exit");
-        exitBtn.clicked += () => GameManager.Instance.OnExitClicked();
-        btnContainer.Add(exitBtn);
-
-        var retryBtn = new Button { text = "Reintentar" };
-        retryBtn.AddToClassList("gameover-btn");
-        retryBtn.AddToClassList("gameover-btn-retry");
-        retryBtn.clicked += () => GameManager.Instance.OnRetryClicked();
-        btnContainer.Add(retryBtn);
-
-        panel.Add(btnContainer);
-        m_GameOverPanel.Add(panel);
-        root.Add(m_GameOverPanel);
     }
 }
