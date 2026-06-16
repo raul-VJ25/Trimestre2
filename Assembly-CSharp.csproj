@@ -49,31 +49,29 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.14f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\PlayerData.cs" />
-    <Compile Include="Assets\Scripts\CellObject.cs" />
-    <Compile Include="Assets\Scripts\AchievementManager.cs" />
-    <Compile Include="Assets\Scripts\WallObject.cs" />
+    <Compile Include="Assets\Scripts\Core\TurnManager.cs" />
+    <Compile Include="Assets\Scripts\Events\GameEvents.cs" />
+    <Compile Include="Assets\Scripts\Data\Achievement.cs" />
     <Compile Include="Assets\Scripts\UI\UIGameManager.cs" />
-    <Compile Include="Assets\Scripts\FoodObject.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\TurnManager.cs" />
-    <Compile Include="Assets\Scripts\ExitCellObject.cs" />
-    <Compile Include="Assets\Scripts\GameEvents.cs" />
-    <Compile Include="Assets\Scripts\SaveManager.cs" />
+    <Compile Include="Assets\Scripts\Core\SessionManager.cs" />
+    <Compile Include="Assets\Scripts\Board\CellObject.cs" />
+    <Compile Include="Assets\Scripts\Managers\SaveManager.cs" />
     <Compile Include="Assets\Scripts\UI\UIMenuManager.cs" />
-    <Compile Include="Assets\Scripts\CharacterCreationManager.cs" />
-    <Compile Include="Assets\Scripts\ChestObject.cs" />
-    <Compile Include="Assets\Scripts\FPSCounter.cs" />
-    <Compile Include="Assets\Scripts\SessionManager.cs" />
-    <Compile Include="Assets\Clases\CharacterData.cs" />
-    <Compile Include="Assets\Scripts\Achievement.cs" />
-    <Compile Include="Assets\Scripts\MenuManager.cs" />
-    <Compile Include="Assets\Clases\CharacterCreator.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\EnemyObject.cs" />
-    <Compile Include="Assets\Scripts\XPGemObject.cs" />
+    <Compile Include="Assets\Scripts\Board\Objects\XPGemObject.cs" />
+    <Compile Include="Assets\Scripts\Board\Objects\ExitCellObject.cs" />
+    <Compile Include="Assets\Scripts\Board\BoardManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
+    <Compile Include="Assets\Scripts\Board\Objects\WallObject.cs" />
+    <Compile Include="Assets\Scripts\Managers\CharacterCreationManager.cs" />
+    <Compile Include="Assets\Scripts\UI\FPSCounter.cs" />
+    <Compile Include="Assets\Scripts\Core\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Board\Objects\FoodObject.cs" />
+    <Compile Include="Assets\Scripts\Board\Objects\ChestObject.cs" />
+    <Compile Include="Assets\Scripts\Data\PlayerData.cs" />
+    <Compile Include="Assets\Scripts\Board\PlayerController.cs" />
     <Compile Include="Assets\Scripts\UI\UICharacterCreationManager.cs" />
-    <Compile Include="Assets\Scripts\BoardManager.cs" />
+    <Compile Include="Assets\Scripts\Board\Objects\EnemyObject.cs" />
+    <Compile Include="Assets\Scripts\Managers\AchievementManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Roguelike2D\TutorialAssets\Fonts\OFL.txt" />
