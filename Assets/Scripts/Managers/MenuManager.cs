@@ -8,12 +8,19 @@ using System.Collections.Generic;
 // NOTA: Toda la UI ha sido delegada a UIMenuManager
 public class MenuManager : MonoBehaviour
 {
-    public string CharacterCreationSceneName = "CharacterCreation";
+    // Singleton
+    public static MenuManager Instance { get; private set; }
 
+    public string CharacterCreationSceneName = "CharacterCreation";
     private const int MIN_WINDOW_WIDTH = 800;
     private const int MIN_WINDOW_HEIGHT = 600;
-
     private int m_DeleteConfirmationCount = 0;
+
+    private void Awake()
+    {
+        if (Instance != null) { Destroy(gameObject); return; }
+        Instance = this;
+    }
 
     void Start()
     {
@@ -33,15 +40,12 @@ public class MenuManager : MonoBehaviour
     void LoadSettings()
     {
         bool isFullscreen = PlayerPrefs.GetInt("Fullscreen", Screen.fullScreen ? 1 : 0) == 1;
-
         if (isFullscreen)
         {
             Resolution currentRes = Screen.currentResolution;
             Screen.SetResolution(currentRes.width, currentRes.height, FullScreenMode.FullScreenWindow);
         }
-
         bool limitFPS = PlayerPrefs.GetInt("LimitFPS", 0) == 1;
-
         if (limitFPS)
         {
             QualitySettings.vSyncCount = 0;
@@ -52,9 +56,7 @@ public class MenuManager : MonoBehaviour
             QualitySettings.vSyncCount = 1;
             Application.targetFrameRate = -1;
         }
-
         bool showFPS = PlayerPrefs.GetInt("ShowFPS", 0) == 1;
-
         bool muteMusic = PlayerPrefs.GetInt("MuteMusic", 0) == 1;
         AudioListener.volume = muteMusic ? 0f : 1f;
     }
@@ -73,7 +75,6 @@ public class MenuManager : MonoBehaviour
     {
         string fileName = Path.GetFileName(filePath);
         PlayerData loadedData = SaveManager.LoadPlayerData(fileName);
-
         if (loadedData != null && SessionManager.Instance != null)
         {
             SessionManager.Instance.CurrentPlayerData = loadedData;
@@ -134,7 +135,6 @@ public class MenuManager : MonoBehaviour
             int height = Mathf.Max(800, MIN_WINDOW_HEIGHT);
             Screen.SetResolution(width, height, FullScreenMode.Windowed);
         }
-
         PlayerPrefs.SetInt("Fullscreen", isFullscreen ? 1 : 0);
         PlayerPrefs.Save();
     }
@@ -152,7 +152,6 @@ public class MenuManager : MonoBehaviour
             QualitySettings.vSyncCount = 1;
             Application.targetFrameRate = -1;
         }
-
         PlayerPrefs.SetInt("LimitFPS", limitFPS ? 1 : 0);
         PlayerPrefs.Save();
     }
@@ -178,7 +177,6 @@ public class MenuManager : MonoBehaviour
     public void OnDeleteAllSavesClicked()
     {
         m_DeleteConfirmationCount++;
-
         if (m_DeleteConfirmationCount == 1)
         {
             // El botón debe mostrar el mensaje de confirmación
@@ -195,7 +193,6 @@ public class MenuManager : MonoBehaviour
     void DeleteAllSaves()
     {
         string[] saveFiles = SaveManager.GetAllSaveFiles();
-
         foreach (string filePath in saveFiles)
         {
             try
