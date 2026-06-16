@@ -78,9 +78,10 @@ public class CharacterCreationManager : MonoBehaviour
         m_AvailablePoints = MAX_INITIAL_POINTS;
     }
 
-    public void ModifyStat(string statName, int amount)
+    // AHORA USA EL ENUM EN LUGAR DE STRING
+    public void ModifyStat(StatType stat, int amount)
     {
-        int currentValue = GetStatValue(statName);
+        int currentValue = GetStatValue(stat);
 
         if (amount > 0)
         {
@@ -99,9 +100,9 @@ public class CharacterCreationManager : MonoBehaviour
             if (m_IsLevelUp)
             {
                 var data = SessionManager.Instance.CurrentPlayerData;
-                int minValue = statName == "Strength" ? data.Strength :
-                               statName == "Agility" ? data.Agility :
-                               statName == "Intelligence" ? data.Intelligence : data.Health;
+                int minValue = stat == StatType.Strength ? data.Strength :
+                               stat == StatType.Agility ? data.Agility :
+                               stat == StatType.Intelligence ? data.Intelligence : data.Health;
                 if (currentValue <= minValue) return;
             }
             else
@@ -110,12 +111,12 @@ public class CharacterCreationManager : MonoBehaviour
             }
         }
 
-        switch (statName)
+        switch (stat)
         {
-            case "Strength": m_Strength += amount; break;
-            case "Agility": m_Agility += amount; break;
-            case "Intelligence": m_Intelligence += amount; break;
-            case "Health": m_Health += amount; break;
+            case StatType.Strength: m_Strength += amount; break;
+            case StatType.Agility: m_Agility += amount; break;
+            case StatType.Intelligence: m_Intelligence += amount; break;
+            case StatType.Health: m_Health += amount; break;
         }
         RefreshUI();
     }
@@ -144,7 +145,6 @@ public class CharacterCreationManager : MonoBehaviour
     public void OnPlayButtonClicked()
     {
         string playerName = (m_IsRetrying || m_IsLevelUp) ? m_RetryName : m_PlayerName;
-
         PlayerData newData = new PlayerData(playerName, m_Strength, m_Agility, m_Intelligence, m_Health);
 
         if (SessionManager.Instance != null)
@@ -177,14 +177,14 @@ public class CharacterCreationManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    public int GetStatValue(string statName)
+    public int GetStatValue(StatType stat)
     {
-        switch (statName)
+        switch (stat)
         {
-            case "Strength": return m_Strength;
-            case "Agility": return m_Agility;
-            case "Intelligence": return m_Intelligence;
-            case "Health": return m_Health;
+            case StatType.Strength: return m_Strength;
+            case StatType.Agility: return m_Agility;
+            case StatType.Intelligence: return m_Intelligence;
+            case StatType.Health: return m_Health;
             default: return MIN_STAT_VALUE;
         }
     }

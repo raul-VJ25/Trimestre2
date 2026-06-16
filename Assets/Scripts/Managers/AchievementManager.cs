@@ -5,13 +5,9 @@ using UnityEngine;
 // Gestiona la creacion, progreso y completado de achievements
 public class AchievementManager : MonoBehaviour
 {
-    // Singleton para acceso global
     public static AchievementManager Instance { get; private set; }
-
-    // Lista de todos los logros del juego
     public List<Achievement> Logros;
 
-    // Inicializacion del singleton
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
@@ -26,37 +22,22 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-    // Crea los logros predeterminados del juego
     private void InitializeDefaultAchievements()
     {
         Logros = new List<Achievement>();
-
-        Achievement Logro1 = new Achievement("KILL", "Exterminador", "La que has liao", 100);
-        Logros.Add(Logro1);
-        Logro1 = new Achievement("KILL", "loco", "para ya", 1000);
-        Logros.Add(Logro1);
-        Logro1 = new Achievement("KILL", "Homicidio", "Primeras 5 bajas", 5);
-        Logros.Add(Logro1);
-
-        Achievement Logro2 = new Achievement("BREAK", "Picapiedra", "No mas muros", 100);
-        Logros.Add(Logro2);
-
-        Achievement Logro3 = new Achievement("EAT", "LLuvia de albondigas", "Pero si son hamburguesas", 100);
-        Logros.Add(Logro3);
-
-        Achievement Logro4 = new Achievement("WALK", "Strava", "Pesao", 1000);
-        Logros.Add(Logro4);
-        Logro4 = new Achievement("WALK", "Inicio", "Primeros 20 pasos", 20);
-        Logros.Add(Logro4);
+        Logros.Add(new Achievement(AchievementType.KILL.ToString(), "Exterminador", "La que has liao", 100));
+        Logros.Add(new Achievement(AchievementType.KILL.ToString(), "Loco", "Para ya", 1000));
+        Logros.Add(new Achievement(AchievementType.KILL.ToString(), "Homicidio", "Primeras 5 bajas", 5));
+        Logros.Add(new Achievement(AchievementType.BREAK.ToString(), "Picapiedra", "No mas muros", 100));
+        Logros.Add(new Achievement(AchievementType.EAT.ToString(), "Lluvia de albondigas", "Pero si son hamburguesas", 100));
+        Logros.Add(new Achievement(AchievementType.WALK.ToString(), "Strava", "Pesao", 1000));
+        Logros.Add(new Achievement(AchievementType.WALK.ToString(), "Inicio", "Primeros 20 pasos", 20));
     }
 
-    // Carga logros guardados desde un archivo
     public void LoadAchievements(List<Achievement> savedAchievements)
     {
         if (savedAchievements == null) return;
-
         InitializeDefaultAchievements();
-
         for (int i = 0; i < Logros.Count; i++)
         {
             var saved = savedAchievements.Find(x => x.ID == Logros[i].ID && x.Name == Logros[i].Name);
@@ -68,7 +49,6 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-    // Suscripcion a eventos del juego
     private void OnEnable()
     {
         GameEvents.OnEnemyKilled += HandleEnemyKill;
@@ -77,7 +57,6 @@ public class AchievementManager : MonoBehaviour
         GameEvents.OnPlayerStep += HandlePlayerStep;
     }
 
-    // Desuscripcion de eventos
     private void OnDisable()
     {
         GameEvents.OnEnemyKilled -= HandleEnemyKill;
@@ -86,15 +65,15 @@ public class AchievementManager : MonoBehaviour
         GameEvents.OnPlayerStep -= HandlePlayerStep;
     }
 
-    // Actualiza y verifica el progreso de logros
-    public void CheckAchievement(string IDAchievement, int amount = 1)
+    // AHORA USA EL ENUM EN LUGAR DE STRING
+    public void CheckAchievement(AchievementType type, int amount = 1)
     {
+        string typeId = type.ToString();
         foreach (Achievement l in Logros)
         {
-            if (l.ID == IDAchievement && l.completed == false)
+            if (l.ID == typeId && !l.completed)
             {
                 l.CurrentAmount += amount;
-
                 if (l.CurrentAmount >= l.AmountToAchieve)
                 {
                     Debug.Log(l.Name + ": " + l.Description);
@@ -108,9 +87,8 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-    // Handlers para eventos especificos
-    private void HandleEnemyKill() { CheckAchievement("KILL"); }
-    private void HandleWallDestroy() { CheckAchievement("BREAK"); }
-    private void HandleFoodPick(int amount) { CheckAchievement("EAT", amount); }
-    private void HandlePlayerStep() { CheckAchievement("WALK"); }
+    private void HandleEnemyKill() { CheckAchievement(AchievementType.KILL); }
+    private void HandleWallDestroy() { CheckAchievement(AchievementType.BREAK); }
+    private void HandleFoodPick(int amount) { CheckAchievement(AchievementType.EAT, amount); }
+    private void HandlePlayerStep() { CheckAchievement(AchievementType.WALK); }
 }

@@ -45,14 +45,14 @@ public class UICharacterCreationManager : MonoBehaviour
         m_StrengthField.isReadOnly = true; m_AgilityField.isReadOnly = true;
         m_IntelligenceField.isReadOnly = true; m_HealthField.isReadOnly = true;
 
-        m_StrPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat("Strength", 1);
-        m_StrMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat("Strength", -1);
-        m_AgiPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat("Agility", 1);
-        m_AgiMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat("Agility", -1);
-        m_IntPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat("Intelligence", 1);
-        m_IntMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat("Intelligence", -1);
-        m_HpPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat("Health", 1);
-        m_HpMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat("Health", -1);
+        m_StrPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Strength, 1);
+        m_StrMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Strength, -1);
+        m_AgiPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Agility, 1);
+        m_AgiMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Agility, -1);
+        m_IntPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Intelligence, 1);
+        m_IntMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Intelligence, -1);
+        m_HpPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Health, 1);
+        m_HpMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Health, -1);
 
         m_PlayButton.clicked += () => CharacterCreationManager.Instance.OnPlayButtonClicked();
 

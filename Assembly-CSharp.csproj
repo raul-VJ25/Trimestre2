@@ -56,9 +56,11 @@
     <Compile Include="Assets\Scripts\Core\SessionManager.cs" />
     <Compile Include="Assets\Scripts\Board\CellObject.cs" />
     <Compile Include="Assets\Scripts\Managers\SaveManager.cs" />
+    <Compile Include="Assets\Scripts\Data\StatType.cs" />
     <Compile Include="Assets\Scripts\UI\UIMenuManager.cs" />
     <Compile Include="Assets\Scripts\Board\Objects\XPGemObject.cs" />
     <Compile Include="Assets\Scripts\Board\Objects\ExitCellObject.cs" />
+    <Compile Include="Assets\Scripts\Data\AchievementType.cs" />
     <Compile Include="Assets\Scripts\Board\BoardManager.cs" />
     <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Board\Objects\WallObject.cs" />
