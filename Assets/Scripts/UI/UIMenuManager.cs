@@ -1,8 +1,9 @@
-using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using System.IO;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class UIMenuManager : MonoBehaviour
 {
@@ -198,10 +199,12 @@ public class UIMenuManager : MonoBehaviour
         foreach (string filePath in files)
         {
             string fileName = Path.GetFileNameWithoutExtension(filePath);
-            var btn = new Button { text = fileName };
+            DateTime timestamp = SaveManager.GetSaveTimestamp(filePath);
+            string displayName = $"{fileName} ({timestamp:dd/MM HH:mm})";
+
+            var btn = new Button { text = displayName };
             btn.AddToClassList("pause-btn");
-            string pathCopy = filePath;
-            btn.clicked += () => MenuManager.Instance.OnSaveFileSelected(pathCopy);
+            btn.clicked += () => MenuManager.Instance.OnSaveFileSelected(filePath);
             scroll.Add(btn);
         }
     }
