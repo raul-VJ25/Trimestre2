@@ -27,7 +27,6 @@ public class UICharacterCreationManager : MonoBehaviour
     {
         if (UIDocument == null) return;
         var root = UIDocument.rootVisualElement;
-
         m_TitleLabel = root.Q<Label>(className: "title");
         m_NameField = root.Q<TextField>("NameInput");
         m_StrengthField = root.Q<IntegerField>("StrInput");
@@ -41,10 +40,8 @@ public class UICharacterCreationManager : MonoBehaviour
         m_AgiPlus = root.Q<Button>("AgiPlus"); m_AgiMinus = root.Q<Button>("AgiMinus");
         m_IntPlus = root.Q<Button>("IntPlus"); m_IntMinus = root.Q<Button>("IntMinus");
         m_HpPlus = root.Q<Button>("HpPlus"); m_HpMinus = root.Q<Button>("HpMinus");
-
         m_StrengthField.isReadOnly = true; m_AgilityField.isReadOnly = true;
         m_IntelligenceField.isReadOnly = true; m_HealthField.isReadOnly = true;
-
         m_StrPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Strength, 1);
         m_StrMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Strength, -1);
         m_AgiPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Agility, 1);
@@ -53,9 +50,7 @@ public class UICharacterCreationManager : MonoBehaviour
         m_IntMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Intelligence, -1);
         m_HpPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Health, 1);
         m_HpMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Health, -1);
-
         m_PlayButton.clicked += () => CharacterCreationManager.Instance.OnPlayButtonClicked();
-
         if (m_NameField != null) m_NameField.RegisterValueChangedCallback(evt => CharacterCreationManager.Instance.SetPlayerName(evt.newValue));
 
         if (CharacterCreationManager.Instance != null && CharacterCreationManager.Instance.IsLevelUp())
@@ -69,6 +64,66 @@ public class UICharacterCreationManager : MonoBehaviour
         else
         {
             SetupNewGameUI();
+        }
+
+        // INICIALIZACIÓN EXPLÍCITA DE VALORES PARA EVITAR QUE APAREZCAN EN 0
+        if (CharacterCreationManager.Instance != null)
+        {
+            m_StrengthField.value = CharacterCreationManager.Instance.GetStatValue(StatType.Strength);
+            m_AgilityField.value = CharacterCreationManager.Instance.GetStatValue(StatType.Agility);
+            m_IntelligenceField.value = CharacterCreationManager.Instance.GetStatValue(StatType.Intelligence);
+            m_HealthField.value = CharacterCreationManager.Instance.GetStatValue(StatType.Health);
+
+            int basePoints = CharacterCreationManager.Instance.IsLevelUp() ?
+                (SessionManager.Instance.CurrentPlayerData.Strength + SessionManager.Instance.CurrentPlayerData.Agility +
+                SessionManager.Instance.CurrentPlayerData.Intelligence + SessionManager.Instance.CurrentPlayerData.Health) :
+                (1 * 4);
+            int currentTotal = CharacterCreationManager.Instance.GetStatValue(StatType.Strength) +
+                               CharacterCreationManager.Instance.GetStatValue(StatType.Agility) +
+                               CharacterCreationManager.Instance.GetStatValue(StatType.Intelligence) +
+                               CharacterCreationManager.Instance.GetStatValue(StatType.Health);
+            int pointsLeft = CharacterCreationManager.Instance.GetAvailablePoints() - (currentTotal - basePoints);
+
+            if (m_PointsLabel != null) m_PointsLabel.text = $"Puntos disponibles: {pointsLeft}";
+
+            PlayerData tempData = new PlayerData("Temp",
+                CharacterCreationManager.Instance.GetStatValue(StatType.Strength),
+                CharacterCreationManager.Instance.GetStatValue(StatType.Agility),
+                CharacterCreationManager.Instance.GetStatValue(StatType.Intelligence),
+                CharacterCreationManager.Instance.GetStatValue(StatType.Health));
+
+            if (m_PreviewLifeLabel != null) m_PreviewLifeLabel.text = "Vida Inicial: " + tempData.StartingLife;
+
+            // Actualizar estado de botones
+            if (CharacterCreationManager.Instance.IsLevelUp())
+            {
+                var data = SessionManager.Instance.CurrentPlayerData;
+                int str = m_StrengthField.value;
+                int agi = m_AgilityField.value;
+                int intel = m_IntelligenceField.value;
+                int hp = m_HealthField.value;
+
+                if (m_StrMinus != null) m_StrMinus.SetEnabled(str > data.Strength);
+                if (m_AgiMinus != null) m_AgiMinus.SetEnabled(agi > data.Agility);
+                if (m_IntMinus != null) m_IntMinus.SetEnabled(intel > data.Intelligence);
+                if (m_HpMinus != null) m_HpMinus.SetEnabled(hp > data.Health);
+            }
+            else
+            {
+                if (m_StrMinus != null) m_StrMinus.SetEnabled(m_StrengthField.value > 1);
+                if (m_AgiMinus != null) m_AgiMinus.SetEnabled(m_AgilityField.value > 1);
+                if (m_IntMinus != null) m_IntMinus.SetEnabled(m_IntelligenceField.value > 1);
+                if (m_HpMinus != null) m_HpMinus.SetEnabled(m_HealthField.value > 1);
+            }
+
+            if (m_StrPlus != null) m_StrPlus.SetEnabled(pointsLeft > 0);
+            if (m_AgiPlus != null) m_AgiPlus.SetEnabled(pointsLeft > 0);
+            if (m_IntPlus != null) m_IntPlus.SetEnabled(pointsLeft > 0);
+            if (m_HpPlus != null) m_HpPlus.SetEnabled(pointsLeft > 0);
+
+            bool canPlay = (CharacterCreationManager.Instance.IsRetrying() || CharacterCreationManager.Instance.IsLevelUp()) ||
+                           !string.IsNullOrWhiteSpace(m_NameField?.value);
+            if (m_PlayButton != null) m_PlayButton.SetEnabled(canPlay);
         }
     }
 
