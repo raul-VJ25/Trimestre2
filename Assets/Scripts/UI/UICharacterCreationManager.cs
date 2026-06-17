@@ -206,6 +206,13 @@ public class UICharacterCreationManager : MonoBehaviour
         var playBtnIndex = card.IndexOf(m_PlayButton);
         if (playBtnIndex >= 0) card.Insert(playBtnIndex, m_XPContainer);
         else card.Add(m_XPContainer);
+
+        // ACTUALIZAR INMEDIATAMENTE EL TEXTO DE XP
+        if (CharacterCreationManager.Instance != null)
+        {
+            int currentXP = CharacterCreationManager.Instance.GetCurrentXP();
+            UpdateExchangeButton(currentXP, 100);
+        }
     }
 
     // Métodos públicos para que CharacterCreationManager actualice la UI
