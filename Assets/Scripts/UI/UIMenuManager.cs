@@ -152,7 +152,6 @@ public class UIMenuManager : MonoBehaviour
     {
         if (m_LoadScroll == null) return;
         m_LoadScroll.Clear();
-
         string[] files = SaveManager.GetAllSaveFiles();
         if (files.Length == 0)
         {
@@ -162,17 +161,43 @@ public class UIMenuManager : MonoBehaviour
             m_LoadScroll.Add(noSavesLabel);
             return;
         }
-
         foreach (string filePath in files)
         {
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             DateTime timestamp = SaveManager.GetSaveTimestamp(filePath);
-            string timestampText = timestamp != DateTime.MinValue ? $" ({timestamp:dd/MM/yy - HH:mm})" : "";
-            string displayName = fileName + timestampText;
+            string timestampText = timestamp != DateTime.MinValue ? $"({timestamp:dd/MM/yy - HH:mm})" : "";
 
-            var btn = new Button { text = displayName };
+            var btn = new Button();
             btn.AddToClassList("pause-btn");
-            btn.style.unityTextAlign = TextAnchor.MiddleLeft;
+            btn.style.height = 40;
+            btn.style.paddingLeft = 10;
+            btn.style.paddingRight = 10;
+
+            // Contenedor con flexbox para separar nombre y fecha
+            var container = new VisualElement();
+            container.style.flexDirection = FlexDirection.Row;
+            container.style.justifyContent = Justify.SpaceBetween;
+            container.style.alignItems = Align.Center;
+            container.style.width = Length.Percent(100);
+
+            // Label del nombre (izquierda)
+            var nameLabel = new Label(fileName);
+            nameLabel.style.flexGrow = 1;
+            nameLabel.style.marginRight = 10;
+            nameLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
+            nameLabel.style.whiteSpace = WhiteSpace.Normal;
+            nameLabel.style.overflow = Overflow.Hidden;
+
+            // Label de la fecha (derecha)
+            var dateLabel = new Label(timestampText);
+            dateLabel.style.flexShrink = 0;
+            dateLabel.style.unityTextAlign = TextAnchor.MiddleRight;
+            dateLabel.style.color = new StyleColor(new Color(0.7f, 0.7f, 0.7f));
+            dateLabel.style.fontSize = 9;
+
+            container.Add(nameLabel);
+            container.Add(dateLabel);
+            btn.Add(container);
 
             string pathCopy = filePath;
             btn.clicked += () => MenuManager.Instance.OnSaveFileSelected(pathCopy);
