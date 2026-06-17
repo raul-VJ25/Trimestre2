@@ -3,7 +3,7 @@
     <ui:VisualElement class="root">
         <ui:VisualElement class="card">
             <ui:Label text="CREAR PERSONAJE" class="title"/>
-            <ui:Label text="Nombre del Héroe" class="section-label"/>
+            <ui:Label name="NameLabel" text="Nombre del Héroe" class="section-label"/>
             <ui:TextField name="NameInput" placeholder-text="" class="modern-input"/>
             <ui:Label name="PointsLabel" text="Puntos disponibles: 10" class="highlight-text"/>
             <ui:VisualElement style="height: 10px;"/>

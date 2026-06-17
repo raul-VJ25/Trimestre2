@@ -9,6 +9,7 @@ public class UICharacterCreationManager : MonoBehaviour
     public UIDocument UIDocument;
 
     private TextField m_NameField;
+    private Label m_NameLabel; // Referencia al label "Nombre del Héroe"
     private IntegerField m_StrengthField, m_AgilityField, m_IntelligenceField, m_HealthField;
     private Label m_PointsLabel, m_PreviewLifeLabel, m_TitleLabel, m_XPLabel;
     private Button m_PlayButton, m_ExchangeXPButton, m_BackButton;
@@ -27,7 +28,9 @@ public class UICharacterCreationManager : MonoBehaviour
     {
         if (UIDocument == null) return;
         var root = UIDocument.rootVisualElement;
+
         m_TitleLabel = root.Q<Label>(className: "title");
+        m_NameLabel = root.Q<Label>("NameLabel"); // Obtener referencia al label
         m_NameField = root.Q<TextField>("NameInput");
         m_StrengthField = root.Q<IntegerField>("StrInput");
         m_AgilityField = root.Q<IntegerField>("AgiInput");
@@ -36,12 +39,15 @@ public class UICharacterCreationManager : MonoBehaviour
         m_PointsLabel = root.Q<Label>("PointsLabel");
         m_PreviewLifeLabel = root.Q<Label>("PreviewLife");
         m_PlayButton = root.Q<Button>("PlayButton");
+
         m_StrPlus = root.Q<Button>("StrPlus"); m_StrMinus = root.Q<Button>("StrMinus");
         m_AgiPlus = root.Q<Button>("AgiPlus"); m_AgiMinus = root.Q<Button>("AgiMinus");
         m_IntPlus = root.Q<Button>("IntPlus"); m_IntMinus = root.Q<Button>("IntMinus");
         m_HpPlus = root.Q<Button>("HpPlus"); m_HpMinus = root.Q<Button>("HpMinus");
+
         m_StrengthField.isReadOnly = true; m_AgilityField.isReadOnly = true;
         m_IntelligenceField.isReadOnly = true; m_HealthField.isReadOnly = true;
+
         m_StrPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Strength, 1);
         m_StrMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Strength, -1);
         m_AgiPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Agility, 1);
@@ -51,6 +57,7 @@ public class UICharacterCreationManager : MonoBehaviour
         m_HpPlus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Health, 1);
         m_HpMinus.clicked += () => CharacterCreationManager.Instance.ModifyStat(StatType.Health, -1);
         m_PlayButton.clicked += () => CharacterCreationManager.Instance.OnPlayButtonClicked();
+
         if (m_NameField != null) m_NameField.RegisterValueChangedCallback(evt => CharacterCreationManager.Instance.SetPlayerName(evt.newValue));
 
         if (CharacterCreationManager.Instance != null && CharacterCreationManager.Instance.IsLevelUp())
@@ -131,6 +138,7 @@ public class UICharacterCreationManager : MonoBehaviour
     {
         if (m_TitleLabel != null) m_TitleLabel.text = $"NOCHE {SessionManager.Instance.CurrentNight} - MEJORA";
         if (m_NameField != null) m_NameField.style.display = DisplayStyle.None;
+        if (m_NameLabel != null) m_NameLabel.style.display = DisplayStyle.None; // Ocultar label
         m_PlayButton.text = "CONTINUAR";
         CreateXPUI();
     }
@@ -139,6 +147,7 @@ public class UICharacterCreationManager : MonoBehaviour
     {
         if (m_TitleLabel != null) m_TitleLabel.text = "REASIGNAR PUNTOS";
         if (m_NameField != null) m_NameField.style.display = DisplayStyle.None;
+        if (m_NameLabel != null) m_NameLabel.style.display = DisplayStyle.None; // Ocultar label
         m_PlayButton.text = "REINTENTAR";
     }
 
@@ -161,6 +170,7 @@ public class UICharacterCreationManager : MonoBehaviour
         m_BackButton.clicked += () => CharacterCreationManager.Instance.OnBackButtonClicked();
 
         m_PlayButton.style.marginTop = 0; m_PlayButton.style.flexGrow = 1;
+
         playParent.Remove(m_PlayButton);
         buttonRow.Add(m_BackButton); buttonRow.Add(m_PlayButton);
         playParent.Add(buttonRow);
@@ -244,6 +254,7 @@ public class UICharacterCreationManager : MonoBehaviour
             if (m_IntMinus != null) m_IntMinus.SetEnabled(intel > MIN_STAT_VALUE);
             if (m_HpMinus != null) m_HpMinus.SetEnabled(hp > MIN_STAT_VALUE);
         }
+
         if (m_StrPlus != null) m_StrPlus.SetEnabled(pointsLeft > 0);
         if (m_AgiPlus != null) m_AgiPlus.SetEnabled(pointsLeft > 0);
         if (m_IntPlus != null) m_IntPlus.SetEnabled(pointsLeft > 0);
