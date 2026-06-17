@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Board\Objects\ExitCellObject.cs" />
     <Compile Include="Assets\Scripts\Managers\SettingsManager.cs" />
     <Compile Include="Assets\Scripts\Data\AchievementType.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
     <Compile Include="Assets\Scripts\Board\BoardManager.cs" />
     <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Board\Objects\WallObject.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Assets\Scripts\UI\UICharacterCreationManager.cs" />
     <Compile Include="Assets\Scripts\Board\Objects\EnemyObject.cs" />
     <Compile Include="Assets\Scripts\Managers\AchievementManager.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IDamageable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Roguelike2D\TutorialAssets\Fonts\OFL.txt" />

@@ -3,8 +3,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.Serialization;
 
 // Muro destructible que bloquea el paso
-// Tiene diferentes niveles de vida segun el tipo
-public class WallObject : CellObject
+public class WallObject : CellObject, IDamageable
 {
     [FormerlySerializedAs("ObstacleTiles")][SerializeField] private Tile[] m_ObstacleTiles;
     [FormerlySerializedAs("LowHealthTile")][SerializeField] private Tile m_LowHealthTile;
@@ -24,13 +23,21 @@ public class WallObject : CellObject
         GameManager.Instance.BoardManager.SetCellTile(cell, randomTile);
     }
 
+    // IMPLEMENTACIÓN DE LA INTERFAZ IDamageable
+    public void TakeDamage(int amount)
+    {
+        m_HealthPoint -= amount;
+    }
+
+    public bool IsDead => m_ShowedLowHealth;
+
     public override bool PlayerWantsToEnter()
     {
         int playerDamage = 1;
         if (SessionManager.Instance != null && SessionManager.Instance.CurrentPlayerData != null)
             playerDamage += SessionManager.Instance.CurrentPlayerData.BonusDamageToWalls;
 
-        m_HealthPoint -= playerDamage;
+        TakeDamage(playerDamage);
 
         if (m_ShowedLowHealth)
         {
