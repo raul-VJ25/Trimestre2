@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-// Enemigo que persigue al jugador y ataca
 public class EnemyObject : CellObject, IDamageable
 {
     [FormerlySerializedAs("Health")][SerializeField] private int m_Health = 3;
@@ -28,7 +27,6 @@ public class EnemyObject : CellObject, IDamageable
         m_CurrentHealth = m_Health + bonus;
     }
 
-    // IMPLEMENTACIÓN DE LA INTERFAZ IDamageable
     public void TakeDamage(int amount)
     {
         m_CurrentHealth -= amount;
@@ -47,7 +45,6 @@ public class EnemyObject : CellObject, IDamageable
         if (SessionManager.Instance != null && SessionManager.Instance.CurrentPlayerData != null)
             playerDamage += SessionManager.Instance.CurrentPlayerData.BonusDamageToEnemies;
 
-        // Usamos el método de la interfaz
         TakeDamage(playerDamage);
         return IsDead;
     }

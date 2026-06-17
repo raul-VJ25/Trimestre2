@@ -2,7 +2,6 @@
 using UnityEngine.Tilemaps;
 using UnityEngine.Serialization;
 
-// Muro destructible que bloquea el paso
 public class WallObject : CellObject, IDamageable
 {
     [FormerlySerializedAs("ObstacleTiles")][SerializeField] private Tile[] m_ObstacleTiles;
@@ -23,7 +22,6 @@ public class WallObject : CellObject, IDamageable
         GameManager.Instance.BoardManager.SetCellTile(cell, randomTile);
     }
 
-    // IMPLEMENTACIÓN DE LA INTERFAZ IDamageable
     public void TakeDamage(int amount)
     {
         m_HealthPoint -= amount;

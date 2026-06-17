@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization; // NECESARIO PARA RECUPERAR REFERENCIAS
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-// Gestor del tablero de juego
 public class BoardManager : MonoBehaviour
 {
     public class CellData
@@ -38,7 +37,6 @@ public class BoardManager : MonoBehaviour
     [FormerlySerializedAs("GemDensity")][Range(0, 15)][SerializeField] private int m_GemDensity = 3;
     [FormerlySerializedAs("ChestDensity")][Range(0, 15)][SerializeField] private int m_ChestDensity = 1;
 
-    // PROPIEDADES PÚBLICAS
     public ExitCellObject ExitCellPrefab => m_ExitCellPrefab;
     public FoodObject[] FoodPrefabs => m_FoodPrefabs;
     public XPGemObject[] GemPrefabs => m_GemPrefabs;

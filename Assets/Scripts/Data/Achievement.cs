@@ -12,7 +12,6 @@ public class Achievement
     [FormerlySerializedAs("CurrentAmount")][SerializeField] private int m_CurrentAmount;
     [FormerlySerializedAs("completed")][SerializeField] private bool m_Completed;
 
-    // Propiedades públicas (manteniendo los nombres originales para que el resto del código no se rompa)
     public string ID => m_ID;
     public string Name => m_Name;
     public string Description => m_Description;
@@ -30,6 +29,5 @@ public class Achievement
         m_Completed = false;
     }
 
-    // Constructor vacío necesario para la deserialización de JsonUtility
     public Achievement() { }
 }

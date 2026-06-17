@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Serialization;
 
-// Celda de salida que avanza al siguiente nivel
 public class ExitCellObject : CellObject, IInteractable
 {
     [FormerlySerializedAs("EndTile")][SerializeField] private Tile m_EndTile;
@@ -13,7 +12,6 @@ public class ExitCellObject : CellObject, IInteractable
         GameManager.Instance.BoardManager.SetCellTile(coord, m_EndTile);
     }
 
-    // IMPLEMENTACIÓN DE LA INTERFAZ IInteractable
     public void Interact()
     {
         GameManager.Instance.NewLevel();

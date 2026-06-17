@@ -3,23 +3,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-// Controlador principal del juego - ACTÚA SOLO COMO COORDINADOR
-// Delega toda la lógica a los sistemas especializados
 public class GameManager : MonoBehaviour
 {
-    // Singleton y referencias principales
     public static GameManager Instance { get; private set; }
     public BoardManager BoardManager;
     public PlayerController PlayerController;
     public Camera MainCamera;
 
-    // Referencias a los sistemas
     private LifeSystem m_LifeSystem;
     private XPSystem m_XPSystem;
     private LevelSystem m_LevelSystem;
     private PauseSystem m_PauseSystem;
 
-    // Propiedades que delegan a los sistemas
     public TurnManager TurnManager { get; private set; }
     public bool IsPaused => m_PauseSystem != null && m_PauseSystem.IsPaused;
     public int CurrentLife => m_LifeSystem != null ? m_LifeSystem.CurrentLife : 0;
@@ -36,28 +31,23 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Obtiene referencias a los sistemas
         m_LifeSystem = GetComponent<LifeSystem>();
         m_XPSystem = GetComponent<XPSystem>();
         m_LevelSystem = GetComponent<LevelSystem>();
         m_PauseSystem = GetComponent<PauseSystem>();
 
-        // Inicializa TurnManager y suscribe eventos
         TurnManager = new TurnManager();
         TurnManager.OnTick += OnTurnHappen;
         m_LifeSystem.OnPlayerDeath += HandlePlayerDeath;
 
-        // CORRECCIÓN HUD: Actualiza el HUD automáticamente cuando el LifeSystem detecta un cambio de vida
         m_LifeSystem.OnLifeChanged += (life) => UpdateHUD();
 
-        // CORRECCIÓN MENÚ DE PAUSA: Suscribe la UI a los eventos del sistema de pausa
         m_PauseSystem.OnGamePaused += () => { if (UIGameManager.Instance != null) UIGameManager.Instance.ShowPauseMenu(); };
         m_PauseSystem.OnGameResumed += () => { if (UIGameManager.Instance != null) UIGameManager.Instance.HidePauseMenu(); };
 
         StartNewGame();
     }
 
-    // Inicia una nueva partida o carga partida guardada
     public void StartNewGame()
     {
         if (UIGameManager.Instance != null) UIGameManager.Instance.HideGameOverPanel();
@@ -87,7 +77,6 @@ public class GameManager : MonoBehaviour
             var data = SessionManager.Instance.CurrentPlayerData;
             m_PlayerName = data.Name;
 
-            // CARGAR LOGROS si existen (para retry, level up y carga de partida)
             if (data.Achievements != null && AchievementManager.Instance != null)
             {
                 AchievementManager.Instance.LoadAchievements(data.Achievements);
@@ -126,7 +115,6 @@ public class GameManager : MonoBehaviour
         AdjustCamera();
     }
 
-    // Regenera el tablero al avanzar de nivel (llamado por LevelSystem)
     public void RefreshLevel()
     {
         BoardManager.Clean();
@@ -146,7 +134,6 @@ public class GameManager : MonoBehaviour
         if (m_LifeSystem != null) m_LifeSystem.OnTurnTick();
     }
 
-    // Maneja la muerte del jugador (llamado por el evento de LifeSystem)
     private void HandlePlayerDeath()
     {
         SaveStatsOnDeath();
@@ -239,7 +226,6 @@ public class GameManager : MonoBehaviour
         if (UIGameManager.Instance != null) UIGameManager.Instance.ShowDodgeNotification(message);
     }
 
-    // Ajusta la cámara al tamaño del tablero
     public void AdjustCamera()
     {
         if (MainCamera == null) return;
@@ -253,13 +239,11 @@ public class GameManager : MonoBehaviour
         MainCamera.transform.position = new Vector3(centerX, centerY, MainCamera.transform.position.z);
     }
 
-    // Delega la pausa al sistema
     public void PauseGame()
     {
         if (m_PauseSystem != null) m_PauseSystem.PauseGame();
     }
 
-    // Delega la reanudación al sistema
     public void ResumeGame()
     {
         if (m_PauseSystem != null) m_PauseSystem.ResumeGame();

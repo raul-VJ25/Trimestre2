@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization; // NECESARIO PARA RECUPERAR DATOS
+using UnityEngine.Serialization;
 
 [Serializable]
 public class PlayerData
@@ -26,7 +26,6 @@ public class PlayerData
     [FormerlySerializedAs("BestLevel")][SerializeField] private int m_BestLevel = 0;
     [FormerlySerializedAs("BestXP")][SerializeField] private int m_BestXP = 0;
 
-    // PROPIEDADES PÚBLICAS
     public string Name { get => m_Name; set => m_Name = value; }
     public int Strength { get => m_Strength; set => m_Strength = value; }
     public int Agility { get => m_Agility; set => m_Agility = value; }

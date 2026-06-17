@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// Gestor del sistema de turnos
-// Controla cuando ocurren eventos por turno
 public class TurnManager
 {
     public event System.Action OnTick;
@@ -12,7 +10,6 @@ public class TurnManager
         m_TurnCount = 1;
     }
 
-    // Avanza un turno y notifica a todos los suscriptores
     public void Tick()
     {
         OnTick?.Invoke();

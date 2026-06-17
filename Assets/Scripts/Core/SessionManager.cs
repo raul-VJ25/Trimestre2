@@ -1,12 +1,9 @@
 using UnityEngine;
 
-// Gestor de sesion persistente entre escenas
-// Mantiene datos del jugador y configuracion de partida
 public class SessionManager : MonoBehaviour
 {
     public static SessionManager Instance { get; private set; }
 
-    // Datos de la sesion actual
     public PlayerData CurrentPlayerData { get; set; }
     public bool IsRetrying { get; set; } = false;
     public bool IsLevelUp { get; set; } = false;
@@ -29,7 +26,6 @@ public class SessionManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Resetea todos los datos para nueva partida
     public void ResetForNewGame()
     {
         AvailableSkillPoints = 0;

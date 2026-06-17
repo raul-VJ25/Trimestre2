@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-// Sistema de eventos globales del juego
 public static class GameEvents
 {
     public static event Action OnEnemyKilled;

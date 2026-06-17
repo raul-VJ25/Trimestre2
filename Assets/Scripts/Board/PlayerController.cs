@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Controlador del jugador
-// Maneja el movimiento basado en grid y la interaccion con objetos
 public class PlayerController : MonoBehaviour
 {
 
@@ -12,14 +10,12 @@ public class PlayerController : MonoBehaviour
 
     public Vector2Int Cell => m_CellPosition;
 
-    // Posiciona al jugador en el tablero
     public void Spawn(BoardManager boardManager, Vector2Int cell)
     {
         m_Board = boardManager;
         MoveTo(cell);
     }
 
-    // Mueve al jugador a una celda
     public void MoveTo(Vector2Int cell)
     {
         m_CellPosition = cell;
@@ -37,7 +33,6 @@ public class PlayerController : MonoBehaviour
         m_IsGameOver = false;
     }
 
-    // Maneja el input del jugador cada frame
     private void Update()
     {
         if (m_IsGameOver)
