@@ -29,7 +29,6 @@ public class UIMenuManager : MonoBehaviour
 
     // Botones
     private Button m_DeleteAllSavesButton;
-
     private bool m_IsInitializing = true;
 
     private void Awake()
@@ -75,15 +74,13 @@ public class UIMenuManager : MonoBehaviour
         if (achievementsBackBtn != null) achievementsBackBtn.clicked += () => { if (m_AchievementsPanel != null) m_AchievementsPanel.style.display = DisplayStyle.None; };
 
         var detailsBackBtn = root.Q<Button>("AchievementDetailsBackButton");
-        if (detailsBackBtn != null) detailsBackBtn.clicked += () =>
-        {
+        if (detailsBackBtn != null) detailsBackBtn.clicked += () => {
             if (m_AchievementDetailsPanel != null) m_AchievementDetailsPanel.style.display = DisplayStyle.None;
             if (m_AchievementsPanel != null) m_AchievementsPanel.style.display = DisplayStyle.Flex;
         };
 
         var settingsBackBtn = root.Q<Button>("SettingsBackButton");
-        if (settingsBackBtn != null) settingsBackBtn.clicked += () =>
-        {
+        if (settingsBackBtn != null) settingsBackBtn.clicked += () => {
             if (m_SettingsPanel != null) m_SettingsPanel.style.display = DisplayStyle.None;
             MenuManager.Instance.ResetDeleteConfirmation();
         };
@@ -94,20 +91,19 @@ public class UIMenuManager : MonoBehaviour
         m_ShowFPSToggle = root.Q<Toggle>("ShowFPSToggle");
         m_MuteMusicToggle = root.Q<Toggle>("MuteMusicToggle");
 
-        if (m_FullscreenToggle != null) m_FullscreenToggle.RegisterValueChangedCallback(evt =>
-        {
+        if (m_FullscreenToggle != null) m_FullscreenToggle.RegisterValueChangedCallback(evt => {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetFullscreen(evt.newValue);
         });
-        if (m_LimitFPSToggle != null) m_LimitFPSToggle.RegisterValueChangedCallback(evt =>
-        {
+
+        if (m_LimitFPSToggle != null) m_LimitFPSToggle.RegisterValueChangedCallback(evt => {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetLimitFPS(evt.newValue);
         });
-        if (m_ShowFPSToggle != null) m_ShowFPSToggle.RegisterValueChangedCallback(evt =>
-        {
+
+        if (m_ShowFPSToggle != null) m_ShowFPSToggle.RegisterValueChangedCallback(evt => {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetShowFPS(evt.newValue);
         });
-        if (m_MuteMusicToggle != null) m_MuteMusicToggle.RegisterValueChangedCallback(evt =>
-        {
+
+        if (m_MuteMusicToggle != null) m_MuteMusicToggle.RegisterValueChangedCallback(evt => {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetMuteMusic(evt.newValue);
         });
 
@@ -145,6 +141,13 @@ public class UIMenuManager : MonoBehaviour
         if (m_SettingsPanel != null) m_SettingsPanel.style.display = DisplayStyle.Flex;
     }
 
+    // NUEVO MÉTODO PARA MOSTRAR EL PANEL DE LOGROS
+    public void ShowAchievementsPanel()
+    {
+        if (m_AchievementsPanel != null)
+            m_AchievementsPanel.style.display = DisplayStyle.Flex;
+    }
+
     public void RefreshSaveFilesList()
     {
         if (m_LoadScroll == null) return;
@@ -170,6 +173,7 @@ public class UIMenuManager : MonoBehaviour
             var btn = new Button { text = displayName };
             btn.AddToClassList("pause-btn");
             btn.style.unityTextAlign = TextAnchor.MiddleLeft;
+
             string pathCopy = filePath;
             btn.clicked += () => MenuManager.Instance.OnSaveFileSelected(pathCopy);
             m_LoadScroll.Add(btn);
@@ -214,7 +218,8 @@ public class UIMenuManager : MonoBehaviour
         }
 
         entries.Sort((a, b) => b.percentage.CompareTo(a.percentage));
-        foreach (var entry in entries) m_AchievementsScroll.Add(CreateAchievementRow(entry.data, entry.filePath));
+        foreach (var entry in entries)
+            m_AchievementsScroll.Add(CreateAchievementRow(entry.data, entry.filePath));
     }
 
     VisualElement CreateAchievementRow(PlayerData data, string filePath)
@@ -235,7 +240,6 @@ public class UIMenuManager : MonoBehaviour
                 if (achievement.Completed) completedCount++;
             }
         }
-
         float percentage = totalCount > 0 ? (float)completedCount / totalCount * 100f : 0f;
 
         var progressContainer = new VisualElement();
@@ -253,13 +257,14 @@ public class UIMenuManager : MonoBehaviour
         bar.style.width = new Length(percentage, LengthUnit.Percent);
         if (percentage >= 100) bar.AddToClassList("progress-bar-complete");
         else if (percentage >= 50) bar.AddToClassList("progress-bar-half");
-
         barContainer.Add(bar);
+
         progressContainer.Add(barContainer);
         row.Add(progressContainer);
 
         var infoBtn = new Button { text = ">" };
         infoBtn.AddToClassList("achievement-info-btn");
+
         string filePathCopy = filePath;
         infoBtn.clicked += () => ShowAchievementDetails(filePathCopy);
         row.Add(infoBtn);
@@ -286,16 +291,20 @@ public class UIMenuManager : MonoBehaviour
         foreach (var defaultAch in defaultAchievements)
         {
             Achievement savedAch = null;
-            if (data.Achievements != null) savedAch = data.Achievements.Find(a => a.ID == defaultAch.ID && a.Name == defaultAch.Name);
+            if (data.Achievements != null)
+                savedAch = data.Achievements.Find(a => a.ID == defaultAch.ID && a.Name == defaultAch.Name);
+
             int currentAmount = savedAch != null ? savedAch.CurrentAmount : 0;
             int targetAmount = defaultAch.AmountToAchieve;
             float percentage = targetAmount > 0 ? (float)currentAmount / targetAmount * 100f : 0f;
             if (percentage > 100f) percentage = 100f;
+
             achievementEntries.Add((defaultAch, savedAch, percentage));
         }
 
         achievementEntries.Sort((a, b) => b.percentage.CompareTo(a.percentage));
-        foreach (var entry in achievementEntries) m_AchievementDetailsScroll.Add(CreateAchievementDetailRow(entry.defaultAch, entry.savedAch));
+        foreach (var entry in achievementEntries)
+            m_AchievementDetailsScroll.Add(CreateAchievementDetailRow(entry.defaultAch, entry.savedAch));
     }
 
     VisualElement CreateAchievementDetailRow(Achievement defaultAch, Achievement savedAch)
@@ -313,6 +322,7 @@ public class UIMenuManager : MonoBehaviour
         var descLabel = new Label(defaultAch.Description);
         descLabel.AddToClassList("achievement-detail-desc");
         infoContainer.Add(descLabel);
+
         row.Add(infoContainer);
 
         int currentAmount = savedAch != null ? savedAch.CurrentAmount : 0;
@@ -332,8 +342,8 @@ public class UIMenuManager : MonoBehaviour
         progressBar.style.width = new Length(percentage, LengthUnit.Percent);
         if (isCompleted) progressBar.AddToClassList("progress-bar-complete");
         else if (percentage >= 50) progressBar.AddToClassList("progress-bar-half");
-
         progressBarContainer.Add(progressBar);
+
         progressContainer.Add(progressBarContainer);
 
         var progressText = new Label($"{currentAmount}/{targetAmount} ({percentage:F0}%)");
@@ -344,17 +354,10 @@ public class UIMenuManager : MonoBehaviour
             progressText.AddToClassList("achievement-completed");
         }
         progressContainer.Add(progressText);
+
         row.Add(progressContainer);
 
         return row;
-    }
-
-    public void ShowAchievementsPanel()
-    {
-        if (m_AchievementsPanel != null)
-        {
-            m_AchievementsPanel.style.display = DisplayStyle.Flex;
-        }
     }
 
     List<Achievement> GetDefaultAchievements()

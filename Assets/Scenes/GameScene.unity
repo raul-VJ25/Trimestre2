@@ -177,17 +177,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1174f4e965cb3144967ba803e415c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoardManager
-  ExitCellPrefab: {fileID: 8929873173067810888, guid: e3f43b864ceca5e45bd8fd35de666f61, type: 3}
-  FoodPrefabs:
+  m_ExitCellPrefab: {fileID: 8929873173067810888, guid: e3f43b864ceca5e45bd8fd35de666f61, type: 3}
+  m_FoodPrefabs:
   - {fileID: -7628945750471435863, guid: 9f5c3e690b5b592438f65665c6aa4045, type: 3}
   - {fileID: 8368219925721986611, guid: 8a076be544e670e4d8986878754f5754, type: 3}
-  GemPrefabs:
+  m_GemPrefabs:
   - {fileID: 7214134209614115505, guid: a266b8792ecefd24e879c38314a09e3d, type: 3}
-  ChestPrefab: {fileID: 956221149472119821, guid: 5b603df7c0d44114caf58471328514bf, type: 3}
-  WallPrefab: {fileID: 4638452704044782725, guid: 6fc936a01fc4ace4d89bdc8c92dfceef, type: 3}
-  Width: 16
-  Height: 12
-  GroundTiles:
+  m_ChestPrefab: {fileID: 956221149472119821, guid: 5b603df7c0d44114caf58471328514bf, type: 3}
+  m_WallPrefab: {fileID: 4638452704044782725, guid: 6fc936a01fc4ace4d89bdc8c92dfceef, type: 3}
+  m_EnemyPrefabs:
+  - {fileID: 8617026875477609486, guid: 734d91b76e3c66746beca292565b487c, type: 3}
+  m_Width: 16
+  m_Height: 12
+  m_GroundTiles:
   - {fileID: 11400000, guid: 546be6c5b3cd6df488138b5de9f97c83, type: 2}
   - {fileID: 11400000, guid: 88838a34f3dd21046b7140413d7356dc, type: 2}
   - {fileID: 11400000, guid: b8de9217c0499e44fa0d662139f63c52, type: 2}
@@ -196,16 +198,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59a3108a3559683408b3902f73279876, type: 2}
   - {fileID: 11400000, guid: 279c333e5d689db4bac0ff12d014e2b7, type: 2}
   - {fileID: 11400000, guid: 4297aa4c2625d8e44985c47a446832b0, type: 2}
-  WallTiles:
+  m_WallTiles:
   - {fileID: 11400000, guid: 18d372860c5280c4c909edfdca25fbb2, type: 2}
   - {fileID: 11400000, guid: 9da57300538c3a045a3bf1d89abe9d89, type: 2}
-  EnemyPrefabs:
-  - {fileID: 8617026875477609486, guid: 734d91b76e3c66746beca292565b487c, type: 3}
-  EnemyDensity: 2
-  WallDensity: 12
-  FoodDensity: 4
-  GemDensity: 3
-  ChestDensity: 4
+  m_EnemyDensity: 2
+  m_WallDensity: 12
+  m_FoodDensity: 4
+  m_GemDensity: 3
+  m_ChestDensity: 4
 --- !u!1 &837186162
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,7 +539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIGameManager
   UIDocument: {fileID: 1042812886}
---- !u!1 &1568217433
+--- !u!1 &1535681749
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -547,34 +547,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1568217435}
-  - component: {fileID: 1568217434}
+  - component: {fileID: 1535681750}
+  - component: {fileID: 1535681751}
   m_Layer: 0
-  m_Name: SettingsManager
+  m_Name: AchievementManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1568217434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568217433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91edb4587fc8a81409bfb7348c73fe2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsManager
---- !u!4 &1568217435
+--- !u!4 &1535681750
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568217433}
+  m_GameObject: {fileID: 1535681749}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -583,6 +571,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1535681751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535681749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a4baa48d2b6d994db455d3613eeba05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AchievementManager
+  m_Logros: []
 --- !u!1 &2034972283
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,4 +804,4 @@ SceneRoots:
   - {fileID: 2068257174}
   - {fileID: 2034972284}
   - {fileID: 1042812885}
-  - {fileID: 1568217435}
+  - {fileID: 1535681750}

@@ -8,7 +8,6 @@ using System.IO;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; private set; }
-
     public string CharacterCreationSceneName = "CharacterCreation";
     private int m_DeleteConfirmationCount = 0;
 
@@ -73,6 +72,7 @@ public class MenuManager : MonoBehaviour
 
     public void OnAchievementsClicked()
     {
+        // MOSTRAR EL PANEL DE LOGROS
         if (UIMenuManager.Instance != null)
         {
             UIMenuManager.Instance.ShowAchievementsPanel();
