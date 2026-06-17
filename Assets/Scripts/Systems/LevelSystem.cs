@@ -55,16 +55,16 @@ public class LevelSystem : MonoBehaviour
             SessionManager.Instance.IsLevelUp = true;
             SessionManager.Instance.CurrentNight = m_CurrentLevel;
             if (m_XPSystem != null) SessionManager.Instance.CurrentXP = m_XPSystem.CurrentXP;
-
             if (Random.value < 0.5f) SessionManager.Instance.BoardWidth++;
             else SessionManager.Instance.BoardHeight++;
-
             SessionManager.Instance.EnemyHealthBonus++;
-
             if (SessionManager.Instance.CurrentPlayerData != null && m_LifeSystem != null)
                 SessionManager.Instance.CurrentPlayerData.SavedLife = m_LifeSystem.CurrentLife;
-        }
 
+            // GUARDAR LOGROS ACTUALES ANTES DE IR AL MENÚ DE MEJORA
+            if (SessionManager.Instance.CurrentPlayerData != null && AchievementManager.Instance != null)
+                SessionManager.Instance.CurrentPlayerData.Achievements = AchievementManager.Instance.Logros;
+        }
         Time.timeScale = 1f;
         SceneManager.LoadScene("CharacterCreation");
     }

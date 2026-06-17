@@ -61,9 +61,7 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         if (UIGameManager.Instance != null) UIGameManager.Instance.HideGameOverPanel();
-
         bool isLevelUp = SessionManager.Instance != null && SessionManager.Instance.IsLevelUp;
-
         if (isLevelUp)
         {
             if (m_LevelSystem != null) m_LevelSystem.Init(SessionManager.Instance.CurrentNight);
@@ -83,12 +81,17 @@ public class GameManager : MonoBehaviour
             if (m_LevelSystem != null) m_LevelSystem.Init(1);
             if (m_XPSystem != null) m_XPSystem.Init(0);
         }
-
         m_PlayerName = "Desconocido";
         if (SessionManager.Instance != null && SessionManager.Instance.CurrentPlayerData != null)
         {
             var data = SessionManager.Instance.CurrentPlayerData;
             m_PlayerName = data.Name;
+
+            // CARGAR LOGROS si existen (para retry, level up y carga de partida)
+            if (data.Achievements != null && AchievementManager.Instance != null)
+            {
+                AchievementManager.Instance.LoadAchievements(data.Achievements);
+            }
 
             if (data.SavedLife != -1 && !isLevelUp)
             {
@@ -99,8 +102,6 @@ public class GameManager : MonoBehaviour
                 SessionManager.Instance.BoardWidth = data.SavedBoardWidth;
                 SessionManager.Instance.BoardHeight = data.SavedBoardHeight;
                 SessionManager.Instance.EnemyHealthBonus = data.SavedEnemyHealthBonus;
-                if (data.Achievements != null && AchievementManager.Instance != null)
-                    AchievementManager.Instance.LoadAchievements(data.Achievements);
             }
             else
             {
@@ -111,15 +112,12 @@ public class GameManager : MonoBehaviour
         {
             if (m_LifeSystem != null) m_LifeSystem.Init(10);
         }
-
         if (SessionManager.Instance != null) SessionManager.Instance.CurrentNight = CurrentLevel;
-
         if (SessionManager.Instance != null)
         {
             BoardManager.Width = SessionManager.Instance.BoardWidth;
             BoardManager.Height = SessionManager.Instance.BoardHeight;
         }
-
         BoardManager.Clean();
         BoardManager.Init();
         PlayerController.Init();
