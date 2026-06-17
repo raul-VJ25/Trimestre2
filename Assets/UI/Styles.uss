@@ -306,17 +306,24 @@ ScrollView {
 .achievement-row {
     flex-direction: row;
     align-items: center;
-    padding: 12px 15px;
+    padding: 15px;
     margin-bottom: 8px;
     background-color: rgb(50, 50, 50);
     border-radius: 6px;
     border-width: 1px;
     border-color: rgb(70, 70, 70);
+    transition-duration: 0.15s;
 }
 
 .achievement-row:hover {
     background-color: rgb(60, 60, 60);
     border-color: rgb(100, 100, 100);
+    scale: 1.02;
+}
+
+.achievement-row:active {
+    background-color: rgb(70, 70, 70);
+    scale: 0.98;
 }
 
 .achievement-name {

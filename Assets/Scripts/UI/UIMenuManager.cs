@@ -268,12 +268,53 @@ public class UIMenuManager : MonoBehaviour
 
     VisualElement CreateAchievementRow(PlayerData data, string filePath)
     {
-        var row = new VisualElement();
-        row.AddToClassList("achievement-row");
+        // Toda la fila es un botón clickeable
+        var btn = new Button();
+        btn.AddToClassList("achievement-row");
+        btn.style.justifyContent = Justify.SpaceBetween;
+        btn.style.alignItems = Align.Center;
+        btn.style.paddingTop = 15;
+        btn.style.paddingBottom = 15;
+        btn.style.paddingLeft = 15;
+        btn.style.paddingRight = 15;
+
+        string filePathCopy = filePath;
+        btn.clicked += () => ShowAchievementDetails(filePathCopy);
+
+        // Contenedor izquierdo: nombre del jugador
+        var leftContainer = new VisualElement();
+        leftContainer.style.flexDirection = FlexDirection.Column;
+        leftContainer.style.flexGrow = 1;
+        leftContainer.style.marginRight = 15;
 
         var nameLabel = new Label(data.Name);
         nameLabel.AddToClassList("achievement-name");
-        row.Add(nameLabel);
+        nameLabel.style.fontSize = 12;
+        nameLabel.style.marginBottom = 5;
+        leftContainer.Add(nameLabel);
+
+        // Contenedor derecho: barra de progreso grande + flecha
+        var rightContainer = new VisualElement();
+        rightContainer.style.flexDirection = FlexDirection.Row;
+        rightContainer.style.alignItems = Align.Center;
+        rightContainer.style.width = new Length(200, LengthUnit.Pixel);
+        rightContainer.style.flexShrink = 0;
+
+        // Barra de progreso grande
+        var progressContainer = new VisualElement();
+        progressContainer.style.flexGrow = 1;
+        progressContainer.style.marginRight = 10;
+
+        var percentLabel = new Label();
+        percentLabel.AddToClassList("achievement-percent");
+        percentLabel.style.fontSize = 11;
+        percentLabel.style.width = new Length(45, LengthUnit.Pixel);
+        percentLabel.style.marginBottom = 5;
+        percentLabel.style.unityTextAlign = TextAnchor.MiddleRight;
+
+        var barContainer = new VisualElement();
+        barContainer.AddToClassList("progress-container");
+        barContainer.style.height = 16; // Barra más alta
 
         int completedCount = 0;
         int totalCount = GetDefaultAchievements().Count;
@@ -286,31 +327,31 @@ public class UIMenuManager : MonoBehaviour
         }
         float percentage = totalCount > 0 ? (float)completedCount / totalCount * 100f : 0f;
 
-        var progressContainer = new VisualElement();
-        progressContainer.AddToClassList("achievement-progress");
-
-        var percentLabel = new Label($"{percentage:F0}%");
-        percentLabel.AddToClassList("achievement-percent");
-        progressContainer.Add(percentLabel);
-
-        var barContainer = new VisualElement();
-        barContainer.AddToClassList("progress-container");
         var bar = new VisualElement();
         bar.AddToClassList("progress-bar");
         bar.style.width = new Length(percentage, LengthUnit.Percent);
         if (percentage >= 100) bar.AddToClassList("progress-bar-complete");
         else if (percentage >= 50) bar.AddToClassList("progress-bar-half");
         barContainer.Add(bar);
+
+        progressContainer.Add(percentLabel);
         progressContainer.Add(barContainer);
-        row.Add(progressContainer);
+        rightContainer.Add(progressContainer);
 
-        var infoBtn = new Button { text = ">" };
-        infoBtn.AddToClassList("achievement-info-btn");
-        string filePathCopy = filePath;
-        infoBtn.clicked += () => ShowAchievementDetails(filePathCopy);
-        row.Add(infoBtn);
+        // Flecha indicadora
+        var arrowLabel = new Label(">");
+        arrowLabel.style.fontSize = 14;
+        arrowLabel.style.color = new StyleColor(new Color(0.7f, 0.7f, 0.7f));
+        arrowLabel.style.marginLeft = 5;
+        rightContainer.Add(arrowLabel);
 
-        return row;
+        btn.Add(leftContainer);
+        btn.Add(rightContainer);
+
+        // Actualizar el texto del porcentaje
+        percentLabel.text = $"{percentage:F0}%";
+
+        return btn;
     }
 
     void ShowAchievementDetails(string filePath)
