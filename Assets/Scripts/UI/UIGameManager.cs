@@ -49,9 +49,6 @@ public class UIGameManager : MonoBehaviour
     private Button m_ExitToMenuButton;
     private Button m_RetryButton;
 
-    private const int MIN_WINDOW_WIDTH = 800;
-    private const int MIN_WINDOW_HEIGHT = 600;
-
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
@@ -127,24 +124,24 @@ public class UIGameManager : MonoBehaviour
         if (m_RetryButton != null)
             m_RetryButton.clicked += () => GameManager.Instance.OnRetryClicked();
 
-        // Registrar callbacks de toggles
+        // Registrar callbacks de toggles (delegados al SettingsManager)
         if (m_FullscreenToggle != null)
-            m_FullscreenToggle.RegisterValueChangedCallback(OnFullscreenChanged);
+            m_FullscreenToggle.RegisterValueChangedCallback(evt => SettingsManager.Instance.SetFullscreen(evt.newValue));
 
         if (m_LimitFPSToggle != null)
-            m_LimitFPSToggle.RegisterValueChangedCallback(OnLimitFPSChanged);
+            m_LimitFPSToggle.RegisterValueChangedCallback(evt => SettingsManager.Instance.SetLimitFPS(evt.newValue));
 
         if (m_ShowFPSToggle != null)
-            m_ShowFPSToggle.RegisterValueChangedCallback(OnShowFPSChanged);
+            m_ShowFPSToggle.RegisterValueChangedCallback(evt => SettingsManager.Instance.SetShowFPS(evt.newValue));
 
         if (m_MuteMusicToggle != null)
-            m_MuteMusicToggle.RegisterValueChangedCallback(OnMuteMusicChanged);
+            m_MuteMusicToggle.RegisterValueChangedCallback(evt => SettingsManager.Instance.SetMuteMusic(evt.newValue));
 
         // Inicializar texto de achievement
         if (m_AchievementLabel != null)
             m_AchievementLabel.text = "";
 
-        // Cargar valores de configuración
+        // Cargar valores de configuración (solo para que los toggles reflejen el estado actual)
         LoadSettingsValues();
     }
 
@@ -275,9 +272,9 @@ public class UIGameManager : MonoBehaviour
 
             string medal = i switch
             {
-                0 => "🥇",
-                1 => "🥈",
-                2 => "🥉",
+                0 => "1.",
+                1 => "2.",
+                2 => "3.",
                 _ => $"{i + 1}."
             };
 
@@ -327,54 +324,6 @@ public class UIGameManager : MonoBehaviour
 
         if (m_MuteMusicToggle != null)
             m_MuteMusicToggle.value = PlayerPrefs.GetInt("MuteMusic", 0) == 1;
-    }
-
-    void OnFullscreenChanged(ChangeEvent<bool> evt)
-    {
-        if (evt.newValue)
-        {
-            Resolution currentRes = Screen.currentResolution;
-            Screen.SetResolution(currentRes.width, currentRes.height, FullScreenMode.FullScreenWindow);
-        }
-        else
-        {
-            int width = Mathf.Max(1280, MIN_WINDOW_WIDTH);
-            int height = Mathf.Max(800, MIN_WINDOW_HEIGHT);
-            Screen.SetResolution(width, height, FullScreenMode.Windowed);
-        }
-        PlayerPrefs.SetInt("Fullscreen", evt.newValue ? 1 : 0);
-        PlayerPrefs.Save();
-    }
-
-    void OnLimitFPSChanged(ChangeEvent<bool> evt)
-    {
-        if (evt.newValue)
-        {
-            QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 60;
-        }
-        else
-        {
-            QualitySettings.vSyncCount = 1;
-            Application.targetFrameRate = -1;
-        }
-        PlayerPrefs.SetInt("LimitFPS", evt.newValue ? 1 : 0);
-        PlayerPrefs.Save();
-    }
-
-    void OnShowFPSChanged(ChangeEvent<bool> evt)
-    {
-        if (FPSCounter.Instance != null)
-        {
-            FPSCounter.Instance.SetShowFPS(evt.newValue);
-        }
-    }
-
-    void OnMuteMusicChanged(ChangeEvent<bool> evt)
-    {
-        AudioListener.volume = evt.newValue ? 0f : 1f;
-        PlayerPrefs.SetInt("MuteMusic", evt.newValue ? 1 : 0);
-        PlayerPrefs.Save();
     }
 
     public void ShowPauseMenu()
