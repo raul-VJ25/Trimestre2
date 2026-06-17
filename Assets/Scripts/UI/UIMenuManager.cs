@@ -11,24 +11,20 @@ public class UIMenuManager : MonoBehaviour
 
     public UIDocument UIDocument;
 
-    // Paneles
     private VisualElement m_LoadPanel;
     private VisualElement m_SettingsPanel;
     private VisualElement m_AchievementsPanel;
     private VisualElement m_AchievementDetailsPanel;
 
-    // Scrolls
     private ScrollView m_LoadScroll;
     private ScrollView m_AchievementsScroll;
     private ScrollView m_AchievementDetailsScroll;
 
-    // Toggles
     private Toggle m_FullscreenToggle;
     private Toggle m_LimitFPSToggle;
     private Toggle m_ShowFPSToggle;
     private Toggle m_MuteMusicToggle;
 
-    // Botones
     private Button m_DeleteAllSavesButton;
     private bool m_IsInitializing = true;
 
@@ -43,7 +39,6 @@ public class UIMenuManager : MonoBehaviour
         if (UIDocument == null) return;
         var root = UIDocument.rootVisualElement;
 
-        // Botones principales
         var newGameButton = root.Q<Button>("NewGameButton");
         var loadGameButton = root.Q<Button>("LoadGameButton");
         var achievementsButton = root.Q<Button>("AchievementsButton");
@@ -56,18 +51,15 @@ public class UIMenuManager : MonoBehaviour
         if (settingsButton != null) settingsButton.clicked += () => MenuManager.Instance.OnSettingsClicked();
         if (exitButton != null) exitButton.clicked += () => MenuManager.Instance.OnExitClicked();
 
-        // Paneles
         m_LoadPanel = root.Q<VisualElement>("LoadPanel");
         m_SettingsPanel = root.Q<VisualElement>("SettingsPanel");
         m_AchievementsPanel = root.Q<VisualElement>("AchievementsPanel");
         m_AchievementDetailsPanel = root.Q<VisualElement>("AchievementDetailsPanel");
 
-        // Scrolls
         m_LoadScroll = root.Q<ScrollView>("LoadScroll");
         m_AchievementsScroll = root.Q<ScrollView>("AchievementsScroll");
         m_AchievementDetailsScroll = root.Q<ScrollView>("AchievementDetailsScroll");
 
-        // Botones de volver
         var loadBackBtn = root.Q<Button>("LoadBackButton");
         if (loadBackBtn != null) loadBackBtn.clicked += () => { if (m_LoadPanel != null) m_LoadPanel.style.display = DisplayStyle.None; };
 
@@ -86,7 +78,6 @@ public class UIMenuManager : MonoBehaviour
             MenuManager.Instance.ResetDeleteConfirmation();
         };
 
-        // Toggles
         m_FullscreenToggle = root.Q<Toggle>("FullscreenToggle");
         m_LimitFPSToggle = root.Q<Toggle>("LimitFPSToggle");
         m_ShowFPSToggle = root.Q<Toggle>("ShowFPSToggle");
@@ -105,7 +96,6 @@ public class UIMenuManager : MonoBehaviour
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetMuteMusic(evt.newValue);
         });
 
-        // Botón borrar partidas
         m_DeleteAllSavesButton = root.Q<Button>("DeleteAllSavesButton");
         if (m_DeleteAllSavesButton != null) m_DeleteAllSavesButton.clicked += () => OnDeleteAllSavesClicked();
 
@@ -192,14 +182,12 @@ public class UIMenuManager : MonoBehaviour
             btn.style.paddingLeft = 10;
             btn.style.paddingRight = 10;
 
-            // Contenedor con flexbox para separar nombre y fecha
             var container = new VisualElement();
             container.style.flexDirection = FlexDirection.Row;
             container.style.justifyContent = Justify.SpaceBetween;
             container.style.alignItems = Align.Center;
             container.style.width = Length.Percent(100);
 
-            // Label del nombre (izquierda)
             var nameLabel = new Label(fileName);
             nameLabel.style.flexGrow = 1;
             nameLabel.style.marginRight = 10;
@@ -207,7 +195,6 @@ public class UIMenuManager : MonoBehaviour
             nameLabel.style.whiteSpace = WhiteSpace.Normal;
             nameLabel.style.overflow = Overflow.Hidden;
 
-            // Label de la fecha (derecha)
             var dateLabel = new Label(timestampText);
             dateLabel.style.flexShrink = 0;
             dateLabel.style.unityTextAlign = TextAnchor.MiddleRight;
@@ -268,7 +255,6 @@ public class UIMenuManager : MonoBehaviour
 
     VisualElement CreateAchievementRow(PlayerData data, string filePath)
     {
-        // Toda la fila es un botón clickeable
         var btn = new Button();
         btn.AddToClassList("achievement-row");
         btn.style.justifyContent = Justify.SpaceBetween;
@@ -281,7 +267,6 @@ public class UIMenuManager : MonoBehaviour
         string filePathCopy = filePath;
         btn.clicked += () => ShowAchievementDetails(filePathCopy);
 
-        // Contenedor izquierdo: nombre del jugador
         var leftContainer = new VisualElement();
         leftContainer.style.flexDirection = FlexDirection.Column;
         leftContainer.style.flexGrow = 1;
@@ -293,14 +278,12 @@ public class UIMenuManager : MonoBehaviour
         nameLabel.style.marginBottom = 5;
         leftContainer.Add(nameLabel);
 
-        // Contenedor derecho: barra de progreso grande + flecha
         var rightContainer = new VisualElement();
         rightContainer.style.flexDirection = FlexDirection.Row;
         rightContainer.style.alignItems = Align.Center;
         rightContainer.style.width = new Length(200, LengthUnit.Pixel);
         rightContainer.style.flexShrink = 0;
 
-        // Barra de progreso grande
         var progressContainer = new VisualElement();
         progressContainer.style.flexGrow = 1;
         progressContainer.style.marginRight = 10;
@@ -314,7 +297,7 @@ public class UIMenuManager : MonoBehaviour
 
         var barContainer = new VisualElement();
         barContainer.AddToClassList("progress-container");
-        barContainer.style.height = 16; // Barra más alta
+        barContainer.style.height = 16;
 
         int completedCount = 0;
         int totalCount = GetDefaultAchievements().Count;
@@ -338,7 +321,6 @@ public class UIMenuManager : MonoBehaviour
         progressContainer.Add(barContainer);
         rightContainer.Add(progressContainer);
 
-        // Flecha indicadora
         var arrowLabel = new Label(">");
         arrowLabel.style.fontSize = 14;
         arrowLabel.style.color = new StyleColor(new Color(0.7f, 0.7f, 0.7f));
@@ -348,7 +330,6 @@ public class UIMenuManager : MonoBehaviour
         btn.Add(leftContainer);
         btn.Add(rightContainer);
 
-        // Actualizar el texto del porcentaje
         percentLabel.text = $"{percentage:F0}%";
 
         return btn;

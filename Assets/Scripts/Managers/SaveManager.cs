@@ -11,7 +11,7 @@ public static class SaveManager
     private static string SaveFolder => Path.Combine(Application.persistentDataPath, "savedata");
     private static string BackupFolder => Path.Combine(Application.persistentDataPath, "savedata_backup");
 
-    // Clave simple para encriptación XOR (no es seguridad real, pero demuestra el concepto)
+    // Clave simple para encriptación XOR
     private const string ENCRYPTION_KEY = "RogueRaul2026Key";
 
     // Guarda los datos del jugador en un archivo JSON encriptado con timestamp

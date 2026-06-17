@@ -9,7 +9,7 @@ public class UICharacterCreationManager : MonoBehaviour
     public UIDocument UIDocument;
 
     private TextField m_NameField;
-    private Label m_NameLabel; // Referencia al label "Nombre del Héroe"
+    private Label m_NameLabel;
     private IntegerField m_StrengthField, m_AgilityField, m_IntelligenceField, m_HealthField;
     private Label m_PointsLabel, m_PreviewLifeLabel, m_TitleLabel, m_XPLabel;
     private Button m_PlayButton, m_ExchangeXPButton, m_BackButton;
@@ -30,7 +30,7 @@ public class UICharacterCreationManager : MonoBehaviour
         var root = UIDocument.rootVisualElement;
 
         m_TitleLabel = root.Q<Label>(className: "title");
-        m_NameLabel = root.Q<Label>("NameLabel"); // Obtener referencia al label
+        m_NameLabel = root.Q<Label>("NameLabel");
         m_NameField = root.Q<TextField>("NameInput");
         m_StrengthField = root.Q<IntegerField>("StrInput");
         m_AgilityField = root.Q<IntegerField>("AgiInput");
@@ -73,7 +73,6 @@ public class UICharacterCreationManager : MonoBehaviour
             SetupNewGameUI();
         }
 
-        // INICIALIZACIÓN EXPLÍCITA DE VALORES PARA EVITAR QUE APAREZCAN EN 0
         if (CharacterCreationManager.Instance != null)
         {
             m_StrengthField.value = CharacterCreationManager.Instance.GetStatValue(StatType.Strength);
@@ -101,7 +100,6 @@ public class UICharacterCreationManager : MonoBehaviour
 
             if (m_PreviewLifeLabel != null) m_PreviewLifeLabel.text = "Vida Inicial: " + tempData.StartingLife;
 
-            // Actualizar estado de botones
             if (CharacterCreationManager.Instance.IsLevelUp())
             {
                 var data = SessionManager.Instance.CurrentPlayerData;
@@ -138,7 +136,7 @@ public class UICharacterCreationManager : MonoBehaviour
     {
         if (m_TitleLabel != null) m_TitleLabel.text = $"NOCHE {SessionManager.Instance.CurrentNight} - MEJORA";
         if (m_NameField != null) m_NameField.style.display = DisplayStyle.None;
-        if (m_NameLabel != null) m_NameLabel.style.display = DisplayStyle.None; // Ocultar label
+        if (m_NameLabel != null) m_NameLabel.style.display = DisplayStyle.None;
         m_PlayButton.text = "CONTINUAR";
         CreateXPUI();
     }
@@ -147,7 +145,7 @@ public class UICharacterCreationManager : MonoBehaviour
     {
         if (m_TitleLabel != null) m_TitleLabel.text = "REASIGNAR PUNTOS";
         if (m_NameField != null) m_NameField.style.display = DisplayStyle.None;
-        if (m_NameLabel != null) m_NameLabel.style.display = DisplayStyle.None; // Ocultar label
+        if (m_NameLabel != null) m_NameLabel.style.display = DisplayStyle.None;
         m_PlayButton.text = "REINTENTAR";
     }
 
@@ -207,7 +205,6 @@ public class UICharacterCreationManager : MonoBehaviour
         if (playBtnIndex >= 0) card.Insert(playBtnIndex, m_XPContainer);
         else card.Add(m_XPContainer);
 
-        // ACTUALIZAR INMEDIATAMENTE EL TEXTO DE XP
         if (CharacterCreationManager.Instance != null)
         {
             int currentXP = CharacterCreationManager.Instance.GetCurrentXP();
@@ -215,7 +212,6 @@ public class UICharacterCreationManager : MonoBehaviour
         }
     }
 
-    // Métodos públicos para que CharacterCreationManager actualice la UI
     public void UpdateStatsUI(int strength, int agility, int intelligence, int health, int pointsLeft)
     {
         if (m_StrengthField != null) m_StrengthField.value = strength;
@@ -247,7 +243,7 @@ public class UICharacterCreationManager : MonoBehaviour
 
     public void UpdateButtonStates(PlayerData data, int str, int agi, int intel, int hp, int pointsLeft)
     {
-        if (data != null) // IsLevelUp
+        if (data != null)
         {
             if (m_StrMinus != null) m_StrMinus.SetEnabled(str > data.Strength);
             if (m_AgiMinus != null) m_AgiMinus.SetEnabled(agi > data.Agility);

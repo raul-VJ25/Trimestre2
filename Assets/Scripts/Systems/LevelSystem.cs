@@ -23,7 +23,6 @@ public class LevelSystem : MonoBehaviour
         RaiseLevelChanged();
     }
 
-    // Avanza al siguiente nivel y regenera el mapa si no es pantalla de mejora
     public bool AdvanceLevel()
     {
         m_CurrentLevel++;
@@ -32,14 +31,12 @@ public class LevelSystem : MonoBehaviour
 
         RaiseLevelChanged();
 
-        // Cada X niveles va a pantalla de mejora
         if (m_CurrentLevel % m_LevelUpInterval == 0 && m_CurrentLevel > 0)
         {
             HandleLevelUpScreen();
             return false;
         }
 
-        // Si no es pantalla de mejora, regeneramos el tablero inmediatamente
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RefreshLevel();
@@ -61,7 +58,6 @@ public class LevelSystem : MonoBehaviour
             if (SessionManager.Instance.CurrentPlayerData != null && m_LifeSystem != null)
                 SessionManager.Instance.CurrentPlayerData.SavedLife = m_LifeSystem.CurrentLife;
 
-            // GUARDAR LOGROS ACTUALES ANTES DE IR AL MENÚ DE MEJORA
             if (SessionManager.Instance.CurrentPlayerData != null && AchievementManager.Instance != null)
                 SessionManager.Instance.CurrentPlayerData.Achievements = AchievementManager.Instance.Logros;
         }

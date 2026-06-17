@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// Gestor centralizado de configuracion del juego
-// Aplica el principio de Responsabilidad Unica (SRP) y DRY
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
@@ -13,7 +11,7 @@ public class SettingsManager : MonoBehaviour
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Persiste entre escenas
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -21,7 +19,6 @@ public class SettingsManager : MonoBehaviour
         LoadAllSettings();
     }
 
-    // Carga y aplica todas las configuraciones guardadas
     public void LoadAllSettings()
     {
         ApplyFullscreen(PlayerPrefs.GetInt("Fullscreen", Screen.fullScreen ? 1 : 0) == 1);
@@ -30,7 +27,6 @@ public class SettingsManager : MonoBehaviour
         ApplyMuteMusic(PlayerPrefs.GetInt("MuteMusic", 0) == 1);
     }
 
-    // Metodos publicos para que la UI los llame
     public void SetFullscreen(bool isFullscreen)
     {
         ApplyFullscreen(isFullscreen);
@@ -59,7 +55,6 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    // Metodos privados que contienen la logica real de aplicacion
     private void ApplyFullscreen(bool isFullscreen)
     {
         if (isFullscreen)

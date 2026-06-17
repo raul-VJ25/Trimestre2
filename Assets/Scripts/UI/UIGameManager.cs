@@ -65,39 +65,32 @@ public class UIGameManager : MonoBehaviour
 
         var root = UIDocument.rootVisualElement;
 
-        // Referencias del GameUI.uxml - TODOS los elementos
         m_LifeLabel = root.Q<Label>("FoodLabel");
         m_AchievementLabel = root.Q<Label>("AchievementLabel");
 
-        // HUD Stats
         m_StrengthLabel = root.Q<Label>("StrengthLabel");
         m_AgilityLabel = root.Q<Label>("AgilityLabel");
         m_IntelligenceLabel = root.Q<Label>("IntelligenceLabel");
         m_HealthLabel = root.Q<Label>("HealthLabel");
         m_SkillPointsLabel = root.Q<Label>("SkillPointsLabel");
 
-        // HUD Progreso
         m_NightLabel = root.Q<Label>("NightLabel");
         m_XPLabel = root.Q<Label>("XPLabel");
 
-        // Paneles
         m_PauseOverlay = root.Q<VisualElement>("PauseOverlay");
         m_SettingsPanel = root.Q<VisualElement>("SettingsPanel");
         m_GameOverPanel = root.Q<VisualElement>("GameOverPanel");
 
-        // Game Over
         m_GameOverHeroLabel = root.Q<Label>("GameOverHeroLabel");
         m_GameOverDaysLabel = root.Q<Label>("GameOverDaysLabel");
         m_GameOverXPLabel = root.Q<Label>("GameOverXPLabel");
         m_TopPlayersContainer = root.Q<VisualElement>("TopPlayersContainer");
 
-        // Configuración
         m_FullscreenToggle = root.Q<Toggle>("FullscreenToggle");
         m_LimitFPSToggle = root.Q<Toggle>("LimitFPSToggle");
         m_ShowFPSToggle = root.Q<Toggle>("ShowFPSToggle");
         m_MuteMusicToggle = root.Q<Toggle>("MuteMusicToggle");
 
-        // Botones
         m_ContinueButton = root.Q<Button>("ContinueButton");
         m_PauseSettingsButton = root.Q<Button>("SettingsButton");
         m_PauseExitButton = root.Q<Button>("ExitButton");
@@ -105,7 +98,6 @@ public class UIGameManager : MonoBehaviour
         m_ExitToMenuButton = root.Q<Button>("ExitToMenuButton");
         m_RetryButton = root.Q<Button>("RetryButton");
 
-        // Registrar callbacks de botones
         if (m_ContinueButton != null)
             m_ContinueButton.clicked += () => GameManager.Instance.ResumeGame();
 
@@ -124,7 +116,6 @@ public class UIGameManager : MonoBehaviour
         if (m_RetryButton != null)
             m_RetryButton.clicked += () => GameManager.Instance.OnRetryClicked();
 
-        // Registrar callbacks de toggles (delegados al SettingsManager)
         if (m_FullscreenToggle != null)
             m_FullscreenToggle.RegisterValueChangedCallback(evt => SettingsManager.Instance.SetFullscreen(evt.newValue));
 
@@ -137,11 +128,9 @@ public class UIGameManager : MonoBehaviour
         if (m_MuteMusicToggle != null)
             m_MuteMusicToggle.RegisterValueChangedCallback(evt => SettingsManager.Instance.SetMuteMusic(evt.newValue));
 
-        // Inicializar texto de achievement
         if (m_AchievementLabel != null)
             m_AchievementLabel.text = "";
 
-        // Cargar valores de configuración (solo para que los toggles reflejen el estado actual)
         LoadSettingsValues();
     }
 

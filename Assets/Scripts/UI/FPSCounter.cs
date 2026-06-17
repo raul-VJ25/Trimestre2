@@ -1,6 +1,5 @@
 using UnityEngine;
 
-// Contador de FPS persistente entre escenas
 public class FPSCounter : MonoBehaviour
 {
     public static FPSCounter Instance { get; private set; }

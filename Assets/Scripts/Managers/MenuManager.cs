@@ -2,9 +2,6 @@
 using UnityEngine.SceneManagement;
 using System.IO;
 
-// Gestor del menu principal
-// Maneja logica de partidas guardadas, logros y borrado
-// NOTA: Toda la UI y configuracion han sido delegadas a UIMenuManager y SettingsManager
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; private set; }
@@ -20,10 +17,8 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        // La carga de configuracion inicial ahora la hace SettingsManager
     }
 
-    // Refresca la lista de logros ordenada por porcentaje
     public void RefreshAchievementsList()
     {
         if (UIMenuManager.Instance != null)
@@ -32,16 +27,14 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    // Refresca la lista de partidas guardadas
     public void RefreshSaveList()
     {
         if (UIMenuManager.Instance != null)
         {
-            UIMenuManager.Instance.RefreshSaveFilesList(); // CORREGIDO: ahora llama al nombre correcto
+            UIMenuManager.Instance.RefreshSaveFilesList();
         }
     }
 
-    // Carga una partida guardada
     public void OnSaveFileSelected(string filePath)
     {
         string fileName = Path.GetFileName(filePath);
@@ -57,7 +50,6 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    // Handlers de botones del menu
     public void OnNewGameClicked()
     {
         SceneManager.LoadScene(CharacterCreationSceneName);
@@ -73,7 +65,6 @@ public class MenuManager : MonoBehaviour
 
     public void OnAchievementsClicked()
     {
-        // MOSTRAR EL PANEL DE LOGROS
         if (UIMenuManager.Instance != null)
         {
             UIMenuManager.Instance.ShowAchievementsPanel();
@@ -97,14 +88,11 @@ public class MenuManager : MonoBehaviour
 #endif
     }
 
-    // Maneja el borrado de todas las partidas con confirmacion
     public void OnDeleteAllSavesClicked()
     {
         m_DeleteConfirmationCount++;
         if (m_DeleteConfirmationCount == 1)
         {
-            // El botón debe mostrar el mensaje de confirmación
-            // Esto se maneja en UIMenuManager
         }
         else if (m_DeleteConfirmationCount >= 2)
         {
@@ -113,7 +101,6 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    // Borra todos los archivos de guardado
     void DeleteAllSaves()
     {
         string[] saveFiles = SaveManager.GetAllSaveFiles();
@@ -131,7 +118,6 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    // Resetea el contador de confirmacion
     public void ResetDeleteConfirmation()
     {
         m_DeleteConfirmationCount = 0;
@@ -139,7 +125,6 @@ public class MenuManager : MonoBehaviour
             UIMenuManager.Instance.UpdateDeleteAllSavesButtonText("Borrar Todas las Partidas");
     }
 
-    // MÉTODO PÚBLICO PARA OBTENER EL CONTADOR DE CONFIRMACIÓN
     public int GetDeleteConfirmationCount()
     {
         return m_DeleteConfirmationCount;

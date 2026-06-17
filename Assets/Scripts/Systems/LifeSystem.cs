@@ -10,11 +10,9 @@ public class LifeSystem : MonoBehaviour
     [Header("Vida Actual")]
     [SerializeField] private int m_CurrentLife = 100;
 
-    // Eventos
     public event System.Action<int> OnLifeChanged;
     public event System.Action OnPlayerDeath;
 
-    // Propiedad de solo lectura
     public int CurrentLife => m_CurrentLife;
 
     public void Init(int startingLife)
@@ -43,6 +41,5 @@ public class LifeSystem : MonoBehaviour
 
     private void RaiseLifeChanged() => OnLifeChanged?.Invoke(m_CurrentLife);
 
-    // Reducción de vida por turno
     public void OnTurnTick() => ChangeLife(-1);
 }

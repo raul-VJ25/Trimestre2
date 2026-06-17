@@ -78,7 +78,6 @@ public class CharacterCreationManager : MonoBehaviour
         m_AvailablePoints = MAX_INITIAL_POINTS;
     }
 
-    // AHORA USA EL ENUM EN LUGAR DE STRING
     public void ModifyStat(StatType stat, int amount)
     {
         int currentValue = GetStatValue(stat);

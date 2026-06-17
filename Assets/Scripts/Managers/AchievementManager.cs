@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-// Sistema de logros del juego
 public class AchievementManager : MonoBehaviour
 {
     public static AchievementManager Instance { get; private set; }
