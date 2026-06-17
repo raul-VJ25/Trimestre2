@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 public class UIMenuManager : MonoBehaviour
 {
     public static UIMenuManager Instance { get; private set; }
+
     public UIDocument UIDocument;
 
     // Paneles
@@ -94,22 +95,19 @@ public class UIMenuManager : MonoBehaviour
         if (m_FullscreenToggle != null) m_FullscreenToggle.RegisterValueChangedCallback(evt => {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetFullscreen(evt.newValue);
         });
-
         if (m_LimitFPSToggle != null) m_LimitFPSToggle.RegisterValueChangedCallback(evt => {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetLimitFPS(evt.newValue);
         });
-
         if (m_ShowFPSToggle != null) m_ShowFPSToggle.RegisterValueChangedCallback(evt => {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetShowFPS(evt.newValue);
         });
-
         if (m_MuteMusicToggle != null) m_MuteMusicToggle.RegisterValueChangedCallback(evt => {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetMuteMusic(evt.newValue);
         });
 
         // Botón borrar partidas
         m_DeleteAllSavesButton = root.Q<Button>("DeleteAllSavesButton");
-        if (m_DeleteAllSavesButton != null) m_DeleteAllSavesButton.clicked += () => MenuManager.Instance.OnDeleteAllSavesClicked();
+        if (m_DeleteAllSavesButton != null) m_DeleteAllSavesButton.clicked += () => OnDeleteAllSavesClicked();
 
         LoadSettingsUI();
         m_IsInitializing = false;
@@ -141,17 +139,37 @@ public class UIMenuManager : MonoBehaviour
         if (m_SettingsPanel != null) m_SettingsPanel.style.display = DisplayStyle.Flex;
     }
 
-    // NUEVO MÉTODO PARA MOSTRAR EL PANEL DE LOGROS
     public void ShowAchievementsPanel()
     {
         if (m_AchievementsPanel != null)
             m_AchievementsPanel.style.display = DisplayStyle.Flex;
     }
 
+    public void OnDeleteAllSavesClicked()
+    {
+        MenuManager.Instance.OnDeleteAllSavesClicked();
+
+        if (MenuManager.Instance.GetDeleteConfirmationCount() == 1)
+        {
+            UpdateDeleteAllSavesButtonText("¿Estás seguro?");
+        }
+        else
+        {
+            UpdateDeleteAllSavesButtonText("Borrar Todas las Partidas");
+        }
+    }
+
+    public void UpdateDeleteAllSavesButtonText(string newText)
+    {
+        if (m_DeleteAllSavesButton != null)
+            m_DeleteAllSavesButton.text = newText;
+    }
+
     public void RefreshSaveFilesList()
     {
         if (m_LoadScroll == null) return;
         m_LoadScroll.Clear();
+
         string[] files = SaveManager.GetAllSaveFiles();
         if (files.Length == 0)
         {
@@ -161,6 +179,7 @@ public class UIMenuManager : MonoBehaviour
             m_LoadScroll.Add(noSavesLabel);
             return;
         }
+
         foreach (string filePath in files)
         {
             string fileName = Path.GetFileNameWithoutExtension(filePath);
@@ -276,20 +295,17 @@ public class UIMenuManager : MonoBehaviour
 
         var barContainer = new VisualElement();
         barContainer.AddToClassList("progress-container");
-
         var bar = new VisualElement();
         bar.AddToClassList("progress-bar");
         bar.style.width = new Length(percentage, LengthUnit.Percent);
         if (percentage >= 100) bar.AddToClassList("progress-bar-complete");
         else if (percentage >= 50) bar.AddToClassList("progress-bar-half");
         barContainer.Add(bar);
-
         progressContainer.Add(barContainer);
         row.Add(progressContainer);
 
         var infoBtn = new Button { text = ">" };
         infoBtn.AddToClassList("achievement-info-btn");
-
         string filePathCopy = filePath;
         infoBtn.clicked += () => ShowAchievementDetails(filePathCopy);
         row.Add(infoBtn);
@@ -347,7 +363,6 @@ public class UIMenuManager : MonoBehaviour
         var descLabel = new Label(defaultAch.Description);
         descLabel.AddToClassList("achievement-detail-desc");
         infoContainer.Add(descLabel);
-
         row.Add(infoContainer);
 
         int currentAmount = savedAch != null ? savedAch.CurrentAmount : 0;
@@ -361,14 +376,12 @@ public class UIMenuManager : MonoBehaviour
 
         var progressBarContainer = new VisualElement();
         progressBarContainer.AddToClassList("progress-container");
-
         var progressBar = new VisualElement();
         progressBar.AddToClassList("progress-bar");
         progressBar.style.width = new Length(percentage, LengthUnit.Percent);
         if (isCompleted) progressBar.AddToClassList("progress-bar-complete");
         else if (percentage >= 50) progressBar.AddToClassList("progress-bar-half");
         progressBarContainer.Add(progressBar);
-
         progressContainer.Add(progressBarContainer);
 
         var progressText = new Label($"{currentAmount}/{targetAmount} ({percentage:F0}%)");
@@ -379,7 +392,6 @@ public class UIMenuManager : MonoBehaviour
             progressText.AddToClassList("achievement-completed");
         }
         progressContainer.Add(progressText);
-
         row.Add(progressContainer);
 
         return row;

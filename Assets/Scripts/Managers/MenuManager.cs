@@ -9,6 +9,7 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; private set; }
     public string CharacterCreationSceneName = "CharacterCreation";
+
     private int m_DeleteConfirmationCount = 0;
 
     private void Awake()
@@ -134,5 +135,13 @@ public class MenuManager : MonoBehaviour
     public void ResetDeleteConfirmation()
     {
         m_DeleteConfirmationCount = 0;
+        if (UIMenuManager.Instance != null)
+            UIMenuManager.Instance.UpdateDeleteAllSavesButtonText("Borrar Todas las Partidas");
+    }
+
+    // MÉTODO PÚBLICO PARA OBTENER EL CONTADOR DE CONFIRMACIÓN
+    public int GetDeleteConfirmationCount()
+    {
+        return m_DeleteConfirmationCount;
     }
 }
