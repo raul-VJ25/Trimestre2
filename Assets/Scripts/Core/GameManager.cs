@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour
         TurnManager.OnTick += OnTurnHappen;
         m_LifeSystem.OnPlayerDeath += HandlePlayerDeath;
 
+        // CORRECCIÓN HUD: Actualiza el HUD automáticamente cuando el LifeSystem detecta un cambio de vida
+        m_LifeSystem.OnLifeChanged += (life) => UpdateHUD();
+
         // CORRECCIÓN MENÚ DE PAUSA: Suscribe la UI a los eventos del sistema de pausa
         m_PauseSystem.OnGamePaused += () => { if (UIGameManager.Instance != null) UIGameManager.Instance.ShowPauseMenu(); };
         m_PauseSystem.OnGameResumed += () => { if (UIGameManager.Instance != null) UIGameManager.Instance.HidePauseMenu(); };
