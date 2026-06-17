@@ -1,13 +1,14 @@
-// Comida que restaura vida al jugador
+using UnityEngine;
+using UnityEngine.Serialization;
+
 public class FoodObject : CellObject
 {
-    public int AmountGranted = 10;
+    [FormerlySerializedAs("AmountGranted")][SerializeField] private int m_AmountGranted = 10;
 
-    // Al entrar el jugador, otorga vida y se destruye
     public override void PlayerEntered()
     {
         Destroy(gameObject);
-        GameManager.Instance.ChangeFood(AmountGranted);
-        GameEvents.RaiseFoodPicked(AmountGranted);
+        GameManager.Instance.ChangeFood(m_AmountGranted);
+        GameEvents.RaiseFoodPicked(m_AmountGranted);
     }
 }

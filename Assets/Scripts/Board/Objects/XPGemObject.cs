@@ -1,14 +1,13 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-// Gema de experiencia que otorga XP al jugador
 public class XPGemObject : CellObject
 {
-    public int XPAmount = 15;
+    [FormerlySerializedAs("XPAmount")][SerializeField] private int m_XPAmount = 15;
 
-    // Al ser recogida, otorga XP y se destruye
     public override void PlayerEntered()
     {
         Destroy(gameObject);
-        GameManager.Instance.ChangeXP(XPAmount);
+        GameManager.Instance.ChangeXP(m_XPAmount);
     }
 }

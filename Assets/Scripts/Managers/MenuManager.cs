@@ -37,7 +37,7 @@ public class MenuManager : MonoBehaviour
     {
         if (UIMenuManager.Instance != null)
         {
-            UIMenuManager.Instance.RefreshSaveList();
+            UIMenuManager.Instance.RefreshSaveFilesList(); // CORREGIDO: ahora llama al nombre correcto
         }
     }
 

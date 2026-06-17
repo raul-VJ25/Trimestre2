@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // Sistema de logros del juego
-// Gestiona la creacion, progreso y completado de achievements
 public class AchievementManager : MonoBehaviour
 {
     public static AchievementManager Instance { get; private set; }
-    public List<Achievement> Logros;
+
+    [FormerlySerializedAs("Logros")][SerializeField] private List<Achievement> m_Logros;
+    public List<Achievement> Logros => m_Logros;
 
     private void Awake()
     {
@@ -16,7 +18,7 @@ public class AchievementManager : MonoBehaviour
 
     void Start()
     {
-        if (Logros == null || Logros.Count == 0)
+        if (m_Logros == null || m_Logros.Count == 0)
         {
             InitializeDefaultAchievements();
         }
@@ -24,27 +26,27 @@ public class AchievementManager : MonoBehaviour
 
     private void InitializeDefaultAchievements()
     {
-        Logros = new List<Achievement>();
-        Logros.Add(new Achievement(AchievementType.KILL.ToString(), "Exterminador", "La que has liao", 100));
-        Logros.Add(new Achievement(AchievementType.KILL.ToString(), "Loco", "Para ya", 1000));
-        Logros.Add(new Achievement(AchievementType.KILL.ToString(), "Homicidio", "Primeras 5 bajas", 5));
-        Logros.Add(new Achievement(AchievementType.BREAK.ToString(), "Picapiedra", "No mas muros", 100));
-        Logros.Add(new Achievement(AchievementType.EAT.ToString(), "Lluvia de albondigas", "Pero si son hamburguesas", 100));
-        Logros.Add(new Achievement(AchievementType.WALK.ToString(), "Strava", "Pesao", 1000));
-        Logros.Add(new Achievement(AchievementType.WALK.ToString(), "Inicio", "Primeros 20 pasos", 20));
+        m_Logros = new List<Achievement>();
+        m_Logros.Add(new Achievement(AchievementType.KILL.ToString(), "Exterminador", "La que has liao", 100));
+        m_Logros.Add(new Achievement(AchievementType.KILL.ToString(), "Loco", "Para ya", 1000));
+        m_Logros.Add(new Achievement(AchievementType.KILL.ToString(), "Homicidio", "Primeras 5 bajas", 5));
+        m_Logros.Add(new Achievement(AchievementType.BREAK.ToString(), "Picapiedra", "No mas muros", 100));
+        m_Logros.Add(new Achievement(AchievementType.EAT.ToString(), "Lluvia de albondigas", "Pero si son hamburguesas", 100));
+        m_Logros.Add(new Achievement(AchievementType.WALK.ToString(), "Strava", "Pesao", 1000));
+        m_Logros.Add(new Achievement(AchievementType.WALK.ToString(), "Inicio", "Primeros 20 pasos", 20));
     }
 
     public void LoadAchievements(List<Achievement> savedAchievements)
     {
         if (savedAchievements == null) return;
         InitializeDefaultAchievements();
-        for (int i = 0; i < Logros.Count; i++)
+        for (int i = 0; i < m_Logros.Count; i++)
         {
-            var saved = savedAchievements.Find(x => x.ID == Logros[i].ID && x.Name == Logros[i].Name);
+            var saved = savedAchievements.Find(x => x.ID == m_Logros[i].ID && x.Name == m_Logros[i].Name);
             if (saved != null)
             {
-                Logros[i].CurrentAmount = saved.CurrentAmount;
-                Logros[i].completed = saved.completed;
+                m_Logros[i].CurrentAmount = saved.CurrentAmount;
+                m_Logros[i].Completed = saved.Completed;
             }
         }
     }
@@ -65,13 +67,12 @@ public class AchievementManager : MonoBehaviour
         GameEvents.OnPlayerStep -= HandlePlayerStep;
     }
 
-    // AHORA USA EL ENUM EN LUGAR DE STRING
     public void CheckAchievement(AchievementType type, int amount = 1)
     {
         string typeId = type.ToString();
-        foreach (Achievement l in Logros)
+        foreach (Achievement l in m_Logros)
         {
-            if (l.ID == typeId && !l.completed)
+            if (l.ID == typeId && !l.Completed)
             {
                 l.CurrentAmount += amount;
                 if (l.CurrentAmount >= l.AmountToAchieve)
@@ -81,7 +82,7 @@ public class AchievementManager : MonoBehaviour
                     {
                         GameManager.Instance.ShowAchievementNotification(l.Name + ": " + l.Description);
                     }
-                    l.completed = true;
+                    l.Completed = true;
                 }
             }
         }
