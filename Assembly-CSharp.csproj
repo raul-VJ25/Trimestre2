@@ -55,8 +55,10 @@
     <Compile Include="Assets\Scripts\UI\UIGameManager.cs" />
     <Compile Include="Assets\Scripts\Core\SessionManager.cs" />
     <Compile Include="Assets\Scripts\Board\CellObject.cs" />
+    <Compile Include="Assets\Scripts\Systems\XPSystem.cs" />
     <Compile Include="Assets\Scripts\Managers\SaveManager.cs" />
     <Compile Include="Assets\Scripts\Data\StatType.cs" />
+    <Compile Include="Assets\Scripts\Systems\PauseSystem.cs" />
     <Compile Include="Assets\Scripts\UI\UIMenuManager.cs" />
     <Compile Include="Assets\Scripts\Board\Objects\XPGemObject.cs" />
     <Compile Include="Assets\Scripts\Board\Objects\ExitCellObject.cs" />
@@ -67,9 +69,11 @@
     <Compile Include="Assets\Scripts\Board\Objects\WallObject.cs" />
     <Compile Include="Assets\Scripts\Managers\CharacterCreationManager.cs" />
     <Compile Include="Assets\Scripts\UI\FPSCounter.cs" />
+    <Compile Include="Assets\Scripts\Systems\LifeSystem.cs" />
     <Compile Include="Assets\Scripts\Core\GameManager.cs" />
     <Compile Include="Assets\Scripts\Board\Objects\FoodObject.cs" />
     <Compile Include="Assets\Scripts\Board\Objects\ChestObject.cs" />
+    <Compile Include="Assets\Scripts\Systems\LevelSystem.cs" />
     <Compile Include="Assets\Scripts\Data\PlayerData.cs" />
     <Compile Include="Assets\Scripts\Board\PlayerController.cs" />
     <Compile Include="Assets\Scripts\UI\UICharacterCreationManager.cs" />

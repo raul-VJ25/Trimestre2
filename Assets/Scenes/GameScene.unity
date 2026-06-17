@@ -593,6 +593,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2034972284}
   - component: {fileID: 2034972285}
+  - component: {fileID: 2034972286}
+  - component: {fileID: 2034972287}
+  - component: {fileID: 2034972288}
+  - component: {fileID: 2034972289}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -630,6 +634,62 @@ MonoBehaviour:
   BoardManager: {fileID: 319971329}
   PlayerController: {fileID: 2068257175}
   MainCamera: {fileID: 837186164}
+--- !u!114 &2034972286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034972283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788a474146ed11a489b1db25ba448b5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LifeSystem
+  m_PlayerController: {fileID: 2068257175}
+  m_CurrentLife: 100
+--- !u!114 &2034972287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034972283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a895c05a016ce478c6e254d94c06a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::XPSystem
+  m_CurrentXP: 0
+--- !u!114 &2034972288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034972283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a04dbf8afc964346b0112e1515d3c6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelSystem
+  m_LevelUpInterval: 5
+  m_BoardManager: {fileID: 319971329}
+  m_PlayerController: {fileID: 2068257175}
+  m_LifeSystem: {fileID: 2034972286}
+  m_XPSystem: {fileID: 2034972287}
+--- !u!114 &2034972289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034972283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81444fc924516e844b67bc8a7ffcddd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseSystem
 --- !u!1 &2068257172
 GameObject:
   m_ObjectHideFlags: 0
