@@ -312,7 +312,6 @@ ScrollView {
     border-radius: 6px;
     border-width: 1px;
     border-color: rgb(70, 70, 70);
-    cursor: link;
 }
 
 .achievement-row:hover {

@@ -73,6 +73,10 @@ public class MenuManager : MonoBehaviour
 
     public void OnAchievementsClicked()
     {
+        if (UIMenuManager.Instance != null)
+        {
+            UIMenuManager.Instance.ShowAchievementsPanel();
+        }
         RefreshAchievementsList();
     }
 

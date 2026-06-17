@@ -75,13 +75,15 @@ public class UIMenuManager : MonoBehaviour
         if (achievementsBackBtn != null) achievementsBackBtn.clicked += () => { if (m_AchievementsPanel != null) m_AchievementsPanel.style.display = DisplayStyle.None; };
 
         var detailsBackBtn = root.Q<Button>("AchievementDetailsBackButton");
-        if (detailsBackBtn != null) detailsBackBtn.clicked += () => {
+        if (detailsBackBtn != null) detailsBackBtn.clicked += () =>
+        {
             if (m_AchievementDetailsPanel != null) m_AchievementDetailsPanel.style.display = DisplayStyle.None;
             if (m_AchievementsPanel != null) m_AchievementsPanel.style.display = DisplayStyle.Flex;
         };
 
         var settingsBackBtn = root.Q<Button>("SettingsBackButton");
-        if (settingsBackBtn != null) settingsBackBtn.clicked += () => {
+        if (settingsBackBtn != null) settingsBackBtn.clicked += () =>
+        {
             if (m_SettingsPanel != null) m_SettingsPanel.style.display = DisplayStyle.None;
             MenuManager.Instance.ResetDeleteConfirmation();
         };
@@ -92,16 +94,20 @@ public class UIMenuManager : MonoBehaviour
         m_ShowFPSToggle = root.Q<Toggle>("ShowFPSToggle");
         m_MuteMusicToggle = root.Q<Toggle>("MuteMusicToggle");
 
-        if (m_FullscreenToggle != null) m_FullscreenToggle.RegisterValueChangedCallback(evt => {
+        if (m_FullscreenToggle != null) m_FullscreenToggle.RegisterValueChangedCallback(evt =>
+        {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetFullscreen(evt.newValue);
         });
-        if (m_LimitFPSToggle != null) m_LimitFPSToggle.RegisterValueChangedCallback(evt => {
+        if (m_LimitFPSToggle != null) m_LimitFPSToggle.RegisterValueChangedCallback(evt =>
+        {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetLimitFPS(evt.newValue);
         });
-        if (m_ShowFPSToggle != null) m_ShowFPSToggle.RegisterValueChangedCallback(evt => {
+        if (m_ShowFPSToggle != null) m_ShowFPSToggle.RegisterValueChangedCallback(evt =>
+        {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetShowFPS(evt.newValue);
         });
-        if (m_MuteMusicToggle != null) m_MuteMusicToggle.RegisterValueChangedCallback(evt => {
+        if (m_MuteMusicToggle != null) m_MuteMusicToggle.RegisterValueChangedCallback(evt =>
+        {
             if (!m_IsInitializing && SettingsManager.Instance != null) SettingsManager.Instance.SetMuteMusic(evt.newValue);
         });
 
@@ -341,6 +347,14 @@ public class UIMenuManager : MonoBehaviour
         row.Add(progressContainer);
 
         return row;
+    }
+
+    public void ShowAchievementsPanel()
+    {
+        if (m_AchievementsPanel != null)
+        {
+            m_AchievementsPanel.style.display = DisplayStyle.Flex;
+        }
     }
 
     List<Achievement> GetDefaultAchievements()
